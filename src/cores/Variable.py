@@ -11,8 +11,9 @@ from src.utils import PublisherBase
 
 
 class Variable(PublisherBase):
-    def __init__(self, **kwargs):
+    def __init__(self, system, **kwargs):
         super().__init__(**kwargs)
+        self.system = system
         self.__handle_missing()
         self.__add_type()
 

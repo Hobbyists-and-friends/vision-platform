@@ -1,7 +1,10 @@
 import unittest
 from unittest.mock import Mock
 
-from src.interfaces import IObserver
+from src.interfaces import (
+    IObserver,
+    ISystem,
+)
 from src.constants import (
     VALUE_KEY,
     NAME_KEY,
@@ -24,19 +27,36 @@ TEST_NULL_NAME = 'null variable'
 
 class VariableTest(unittest.TestCase):
     def setUp(self):
-        self.number_variable = Variable(**{
-            NAME_KEY: TEST_NUMBER_NAME,
-            VALUE_KEY: TEST_NUMBER_VALUE,
-        })
+        self.system = Mock(spec=ISystem)
 
-        self.string_variable = Variable(**{
-            NAME_KEY: TEST_STRING_NAME,
-            VALUE_KEY: TEST_STRING_VALUE
-        })
+        self.number_variable = Variable(
+            system=self.system,
+            **{
+                NAME_KEY: TEST_NUMBER_NAME,
+                VALUE_KEY: TEST_NUMBER_VALUE,
+            }
+        )
 
-        self.null_variable = Variable(**{
-            NAME_KEY: TEST_NULL_NAME,
-        })
+        self.string_variable = Variable(
+            system=self.system,
+            **{
+                NAME_KEY: TEST_STRING_NAME,
+                VALUE_KEY: TEST_STRING_VALUE
+            }
+        )
+
+        self.null_variable = Variable(
+            system=self.system,
+            **{
+                NAME_KEY: TEST_NULL_NAME,
+            }
+        )
+
+        self.no_name_variable = Variable(system=self.system,
+                                         **{
+                                             VALUE_KEY: TEST_NUMBER_VALUE
+                                         }
+                                         )
 
         self.first_test_observer = Mock(spec=IObserver)
         self.second_test_observer = Mock(spec=IObserver)
@@ -46,19 +66,11 @@ class VariableTest(unittest.TestCase):
         self.assertEqual(self.string_variable.name, TEST_STRING_NAME)
 
     def test_create_variable_without_name(self):
-        variable = Variable(**{
-            VALUE_KEY: TEST_NUMBER_VALUE
-        })
-
-        self.assertEqual(variable.name, EMPTY_STRING)
+        self.assertEqual(self.no_name_variable.name, EMPTY_STRING)
 
     def test_create_variable_without_value(self):
-        variable = Variable(**{
-            NAME_KEY: TEST_NUMBER_NAME,
-        })
-
-        self.assertEqual(variable.data[VALUE_KEY], None)
-        self.assertEqual(variable.type, VariableType.NULL)
+        self.assertEqual(self.null_variable.data[VALUE_KEY], None)
+        self.assertEqual(self.null_variable.type, VariableType.NULL)
 
     def test_create_number_variable(self):
         self.assertEqual(self.number_variable.type, VariableType.NUMBER)
