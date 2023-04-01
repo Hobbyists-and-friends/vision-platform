@@ -7,7 +7,7 @@ from src.interfaces import (
 class PublisherBase(IPublisher):
     def __init__(self, **kwargs):
         self.__observers = []
-        self.__dict = kwargs
+        self._dict = kwargs
 
     def add_observer(self, observer: 'IObserver') -> None:
         if observer not in self.__observers:
@@ -19,4 +19,4 @@ class PublisherBase(IPublisher):
 
     def notify(self) -> None:
         for observer in self.__observers:
-            observer.update(self, self.__dict)
+            observer.update(self, self._dict)
