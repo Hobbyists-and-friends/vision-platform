@@ -17,7 +17,7 @@ class System(PublisherBase, ISystem):
         self.__error = Variable(
             system=self,
             **{
-                VALUE_KEY: '',
+                VALUE_KEY: EMPTY_STRING,
             },
         )
         self.__variables = {}
