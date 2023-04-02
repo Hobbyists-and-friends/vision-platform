@@ -30,5 +30,5 @@ class System(PublisherBase, ISystem):
     def error(self) -> 'IVariable':
         return self.__error
 
-    def run_operation(self, operation: 'IOperation'):
+    def run_operation(self, operation: 'IOperation', args: list, kwargs: dict) -> None:
         pass

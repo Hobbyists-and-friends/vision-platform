@@ -7,3 +7,10 @@ EMPTY_STRING = ''
 
 APP_NAME = 'Vision Platform'
 APP_SIZE = (600, 400)
+
+
+DEFAULT_COLUMN = 5
+DEFAULT_ROW = 5
+
+
+ICON_BUTTON_DEFAULT_OPERATION = 'NoneOperation'
