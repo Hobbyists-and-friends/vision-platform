@@ -8,6 +8,9 @@ from src.cores import Variable
 from src.constants import (
     VALUE_KEY,
     EMPTY_STRING,
+    VARIABLES_KEY,
+    OPERATION_KEY,
+    APPLICATION_KEY,
 )
 
 
@@ -21,6 +24,8 @@ class System(PublisherBase, ISystem):
             },
         )
         self.__variables = {}
+        self.application = None
+        self.__operations = {}
 
     @property
     def variables(self) -> dict:
@@ -30,5 +35,18 @@ class System(PublisherBase, ISystem):
     def error(self) -> 'IVariable':
         return self.__error
 
-    def run_operation(self, operation: 'IOperation', args: list, kwargs: dict) -> None:
-        pass
+    def add_application(self, application):
+        self.application = application
+
+    def run_operation(self, operation: 'IOperation') -> None:
+        operation.run(self, {
+            OPERATION_KEY: self.__operations,
+            VARIABLES_KEY: self.__variables,
+            APPLICATION_KEY: self.application,
+        })
+
+    def add_variable(self, variable: 'IVariable'):
+        self.__variables[variable.name] = variable
+
+    def add_operation(self, operation: 'IOperation'):
+        self.__operations[operation.operation_id] = operation

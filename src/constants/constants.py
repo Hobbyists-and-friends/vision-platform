@@ -1,6 +1,9 @@
 VALUE_KEY = 'value'
 TYPE_KEY = 'type'
 NAME_KEY = 'name'
+VARIABLES_KEY = 'variables'
+OPERATION_KEY = 'operation'
+APPLICATION_KEY = 'application'
 
 EMPTY_STRING = ''
 
