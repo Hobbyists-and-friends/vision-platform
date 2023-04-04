@@ -24,6 +24,10 @@ class IconButton(QPushButton, IGUIComponent, metaclass=PyQtMetaClass):
         self.clicked.connect(self._click)
         self.setText(name)
 
+    @property
+    def component_id(self) -> str:
+        return self.__name
+
     def __repr__(self):
         return f'<IconButton name={self.__name} />'
 
@@ -34,4 +38,4 @@ class IconButton(QPushButton, IGUIComponent, metaclass=PyQtMetaClass):
         self.__operation = operation
 
     def _click(self):
-        self.system.run_operation(self.__operation, [], {})
+        print("Here")

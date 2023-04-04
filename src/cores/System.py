@@ -2,6 +2,7 @@ from src.interfaces import (
     ISystem,
     IOperation,
     IVariable,
+    IGUIComponent,
 )
 from src.utils import PublisherBase
 from src.cores import Variable
@@ -23,6 +24,7 @@ class System(PublisherBase, ISystem):
                 VALUE_KEY: EMPTY_STRING,
             },
         )
+        self.__ui_components = {}
         self.__variables = {}
         self.application = None
         self.__operations = {}
@@ -34,6 +36,14 @@ class System(PublisherBase, ISystem):
     @property
     def error(self) -> 'IVariable':
         return self.__error
+
+    @property
+    def ui_components(self) -> dict:
+        return self.__ui_components
+
+    @property
+    def operations(self) -> dict:
+        return self.__operations
 
     def add_application(self, application):
         self.application = application
@@ -50,3 +60,6 @@ class System(PublisherBase, ISystem):
 
     def add_operation(self, operation: 'IOperation'):
         self.__operations[operation.operation_id] = operation
+
+    def add_ui_component(self, ui_component: 'IGUIComponent'):
+        self.__ui_components[ui_component.component_id] = ui_component

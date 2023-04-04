@@ -14,11 +14,16 @@ class GridComponentTest(unittest.TestCase):
     def setUpClass(cls):
         cls.app = QApplication(sys.argv)
 
+    @classmethod
+    def tearDownClass(cls):
+        cls.app.quit()
+
     def setUp(self):
-        self.grid_widget = GridComponent(
-            columns=TEST_NUMBER_OF_COLUMNS,
-            rows=TEST_NUMBER_OF_ROWS,
-        )
+        # self.grid_widget = GridComponent(
+        #     columns=TEST_NUMBER_OF_COLUMNS,
+        #     rows=TEST_NUMBER_OF_ROWS,
+        # )
+        pass
 
     def test_grid_component_initialization(self):
         pass

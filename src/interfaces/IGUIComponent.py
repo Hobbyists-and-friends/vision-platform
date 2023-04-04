@@ -1,4 +1,4 @@
-from abc import abstractmethod, ABC
+from abc import abstractmethod, ABC, abstractproperty
 
 from src.interfaces import (
     IObserver,
@@ -7,4 +7,6 @@ from src.interfaces import (
 
 
 class IGUIComponent(IObserver):
-    pass
+    @abstractproperty
+    def component_id(self) -> str:
+        raise NotImplementedError

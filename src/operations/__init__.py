@@ -1,2 +1,4 @@
 from .CreateVariableOperation import CreateVariableOperation
 from .LoadLayoutOperation import LoadLayoutOperation
+from .CreateIconButtonOperation import CreateIconButtonOpeartion
+from .AddGUIComponentOperation import AddGUIComponentOperation

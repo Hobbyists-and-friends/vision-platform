@@ -6,6 +6,7 @@ from src.interfaces import (
     IOperation,
     IVariable,
     IApplicationGUI,
+    IGUIComponent,
 )
 
 
@@ -32,4 +33,8 @@ class ISystem(IPublisher):
 
     @abstractmethod
     def add_operation(self, operation: 'IOperation'):
+        raise NotImplementedError
+
+    @abstractmethod
+    def add_ui_component(self, ui_component: 'IGUIComponent'):
         raise NotImplementedError
