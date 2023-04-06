@@ -12,7 +12,10 @@ from src.interfaces import (
 )
 
 
-TEST_OPERATION_ID = 'test_operation_id'
+from tests.constants import (
+    TEST_OPERATION_NAME,
+)
+
 TEST_NAME = 'test_name'
 TEST_LAYOUT = 'test_layout'
 
@@ -23,7 +26,7 @@ class CreateIconButtonTest(unittest.TestCase):
 
     def test_create_icon_button(self):
         operation = CreateIconButtonOpeartion(self.system,
-                                              TEST_OPERATION_ID,
+                                              TEST_OPERATION_NAME,
                                               TEST_NAME)
 
         operation.run()

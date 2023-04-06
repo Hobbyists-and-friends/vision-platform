@@ -8,9 +8,15 @@ from unittest.mock import (
 from src.interfaces import (
     ISystem,
     IApplicationGUI,
+    IGUIComponent,
 )
 from src.operations import (
     LoadLayoutOperation,
+)
+
+
+from tests.tools import (
+    create_mocked_system,
 )
 
 
@@ -22,8 +28,9 @@ class LoadLayoutTest(unittest.TestCase):
     def setUp(self):
         self.system = Mock(spec=ISystem)
         self.application = Mock(spec=IApplicationGUI)
-        applications = PropertyMock(return_value=self.application)
-        type(self.system).application = applications
+        self.ui_component = Mock(spec=IGUIComponent)
+
+        create_mocked_system(self.system, self.ui_component, self.application)
 
     def test_load_layout(self):
         with patch('os.path.exists', return_value=True) as mock_exists:

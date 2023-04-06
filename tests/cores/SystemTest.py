@@ -22,13 +22,17 @@ from src.interfaces import (
     IGUIComponent,
 )
 
-
-TEST_VARIABLE_NAME = 'test_variable'
-TEST_VARIABLE_VALUE = 3
-
-TEST_OPERATION_NAME = 'test_operation'
-
-TEST_UI_COMPONENT_NAME = 'test_ui_component'
+from tests.constants import (
+    TEST_OPERATION_NAME,
+    TEST_VARIABLE_NAME,
+    TEST_UI_COMPONENT_NAME,
+    TEST_VARIABLE_VALUE,
+)
+from tests.tools import (
+    create_mocked_int_variable,
+    creat_mocked_operation,
+    create_mocked_ui_component,
+)
 
 
 class SystemTest(unittest.TestCase):
@@ -36,32 +40,13 @@ class SystemTest(unittest.TestCase):
         self.system = System()
 
         self.variable = Mock(spec=IVariable)
-        self._define_variable()
+        create_mocked_int_variable(self.variable)
 
         self.operation = Mock(spec=IOperation)
-        self._define_operation()
+        creat_mocked_operation(self.operation)
 
         self.ui_component = Mock(spec=IGUIComponent)
-        self._define_gui_component()
-
-    def _define_gui_component(self):
-        component_id = PropertyMock(return_value=TEST_UI_COMPONENT_NAME)
-        type(self.ui_component).component_id = component_id
-
-    def _define_operation(self):
-        operation_id = PropertyMock(return_value=TEST_OPERATION_NAME)
-
-        type(self.operation).operation_id = operation_id
-
-    def _define_variable(self):
-        data = PropertyMock(return_value={
-            VALUE_KEY: TEST_VARIABLE_VALUE,
-            NAME_KEY: TEST_VARIABLE_NAME
-        })
-        type(self.variable).data = data
-
-        variable_id = PropertyMock(return_value=TEST_VARIABLE_NAME)
-        type(self.variable).variable_id = variable_id
+        create_mocked_ui_component(self.ui_component)
 
     def test_system_has_no_error_at_the_beginning(self):
         self.assertEqual(self.system.error.data[VALUE_KEY], EMPTY_STRING)

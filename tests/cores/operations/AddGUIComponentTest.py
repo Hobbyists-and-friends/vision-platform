@@ -13,9 +13,15 @@ from src.operations import (
     AddGUIComponentOperation,
 )
 
+from tests.constants import (
+    TEST_UI_COMPONENT_NAME,
+    TEST_COMPONENT_LAYOUT,
+)
 
-TEST_COMPONENT_ID = 'test_component_id'
-TEST_COMPONENT_LAYOUT = 'test_component_layout'
+from tests.tools import (
+    create_mocked_ui_component,
+    create_mocked_system,
+)
 
 
 class AddGUIComponentTest(unittest.TestCase):
@@ -23,20 +29,13 @@ class AddGUIComponentTest(unittest.TestCase):
         self.system = Mock(spec=ISystem)
         self.gui_component = Mock(spec=IGUIComponent)
         self.application = Mock(spec=IApplicationGUI)
-        type(self.system).application = PropertyMock(
-            return_value=self.application)
 
-        type(self.gui_component).component_id = PropertyMock(
-            return_value=TEST_COMPONENT_ID)
-
-        ui_components = PropertyMock(return_value={
-            TEST_COMPONENT_ID: self.gui_component
-        })
-        type(self.system).ui_components = ui_components
+        create_mocked_system(self.system, self.gui_component, self.application)
+        create_mocked_ui_component(self.gui_component)
 
     def test_add_gui_component(self):
         operation = AddGUIComponentOperation(
-            self.system, TEST_COMPONENT_ID, TEST_COMPONENT_LAYOUT)
+            self.system, TEST_UI_COMPONENT_NAME, TEST_COMPONENT_LAYOUT)
 
         operation.run()
 

@@ -18,26 +18,30 @@ from src.operations import (
     CreateVariableOperation,
 )
 
+from tests.constants import (
+    TEST_OPERATION_NAME,
+    TEST_VARIABLE_NAME,
+    TEST_VARIABLE_VALUE,
+)
 
-TEST_OPERATION_NAME = 'test_operation_name'
-TEST_VARIABLE_NAME = 'test_variable'
-TEST_VARIABLE_VALUE = 3
+from tests.tools import (
+    create_mocked_system,
+    create_mocked_int_variable,
+    add_vars_system,
+    add_no_vars_system,
+)
 
 
 class CreateVariableTest(unittest.TestCase):
     def setUp(self):
+        self.variable = Mock(spec=IVariable)
+        create_mocked_int_variable(self.variable)
+
         self.no_var_system = Mock(spec=ISystem)
-        no_vars = PropertyMock(return_value={})
-        type(self.no_var_system).variables = no_vars
+        add_no_vars_system(self.no_var_system)
 
         self.one_var_system = Mock(spec=ISystem)
-        self.variable = Mock(spec=IVariable)
-        variable_name = PropertyMock(return_value=TEST_VARIABLE_NAME)
-        type(self.variable).name = variable_name
-
-        mock_variables = PropertyMock(
-            return_value={TEST_VARIABLE_NAME: self.variable})
-        type(self.one_var_system).variables = mock_variables
+        add_vars_system(self.one_var_system, self.variable)
 
     def test_create_variable(self):
         operation = CreateVariableOperation(
