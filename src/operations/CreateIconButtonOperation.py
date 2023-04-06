@@ -12,13 +12,15 @@ from .OperationBase import OperationBase
 class CreateIconButtonOpeartion(OperationBase):
     def __init__(self, system: 'ISystem',
                  operation_id: str,
-                 name: str,
+                 component_id: str,
+                 text: str,
                  store=False):
         super().__init__(system, operation_id, store=store)
-        self.__name = name
+        self.__component_id = component_id
+        self.__text = text
 
     def _run(self) -> None:
-        component = IconButton(self.__name, self.system)
+        component = IconButton(self.system, self.__component_id, self.__text)
         self.system.add_ui_component(component)
 
     def update(self, publisher: 'IPublisher', data: dict) -> None:

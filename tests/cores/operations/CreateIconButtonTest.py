@@ -18,6 +18,7 @@ from tests.constants import (
 
 TEST_NAME = 'test_name'
 TEST_LAYOUT = 'test_layout'
+TEST_BUTTON_TEXT = 'test_button_text'
 
 
 class CreateIconButtonTest(unittest.TestCase):
@@ -25,9 +26,10 @@ class CreateIconButtonTest(unittest.TestCase):
         self.system = Mock(spec=ISystem)
 
     def test_create_icon_button(self):
-        operation = CreateIconButtonOpeartion(self.system,
-                                              TEST_OPERATION_NAME,
-                                              TEST_NAME)
+        operation = CreateIconButtonOpeartion(system=self.system,
+                                              operation_id=TEST_OPERATION_NAME,
+                                              component_id=TEST_NAME,
+                                              text=TEST_BUTTON_TEXT)
 
         operation.run()
 

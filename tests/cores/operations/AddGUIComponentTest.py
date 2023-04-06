@@ -36,9 +36,9 @@ class AddGUIComponentTest(unittest.TestCase):
 
     def test_add_gui_component(self):
         operation = AddGUIComponentOperation(
-            self.system, 
+            self.system,
             TEST_OPERATION_NAME,
-            TEST_UI_COMPONENT_NAME, 
+            TEST_UI_COMPONENT_NAME,
             TEST_COMPONENT_LAYOUT)
 
         operation.run()
@@ -46,3 +46,6 @@ class AddGUIComponentTest(unittest.TestCase):
         self.application.add_component.assert_called_once_with(
             self.gui_component, TEST_COMPONENT_LAYOUT
         )
+
+    def test_add_existed_gui_component(self):
+        pass
