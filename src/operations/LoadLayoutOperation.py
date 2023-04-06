@@ -3,13 +3,18 @@ import os
 from src.interfaces import (
     IOperation,
     IPublisher,
+    ISystem,
 )
 from .OperationBase import OperationBase
 
 
 class LoadLayoutOperation(OperationBase):
-    def __init__(self, system, operation_id: str, layout_name: str):
-        super().__init__(system, operation_id)
+    def __init__(self,
+                 system: 'ISystem',
+                 operation_id: str,
+                 layout_name: str,
+                 store=False):
+        super().__init__(system, operation_id, store=store)
         self.__layout_name = layout_name
 
     def export(self):

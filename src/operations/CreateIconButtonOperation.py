@@ -12,8 +12,9 @@ from .OperationBase import OperationBase
 class CreateIconButtonOpeartion(OperationBase):
     def __init__(self, system: 'ISystem',
                  operation_id: str,
-                 name: str):
-        super().__init__(system, operation_id)
+                 name: str,
+                 store=False):
+        super().__init__(system, operation_id, store=store)
         self.__name = name
 
     def _run(self) -> None:

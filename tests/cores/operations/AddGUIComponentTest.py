@@ -14,6 +14,7 @@ from src.operations import (
 )
 
 from tests.constants import (
+    TEST_OPERATION_NAME,
     TEST_UI_COMPONENT_NAME,
     TEST_COMPONENT_LAYOUT,
 )
@@ -35,7 +36,10 @@ class AddGUIComponentTest(unittest.TestCase):
 
     def test_add_gui_component(self):
         operation = AddGUIComponentOperation(
-            self.system, TEST_UI_COMPONENT_NAME, TEST_COMPONENT_LAYOUT)
+            self.system, 
+            TEST_OPERATION_NAME,
+            TEST_UI_COMPONENT_NAME, 
+            TEST_COMPONENT_LAYOUT)
 
         operation.run()
 

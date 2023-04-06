@@ -17,8 +17,9 @@ class CreateVariableOperation(OperationBase):
     def __init__(self, system: 'ISystem',
                  operation_id: str,
                  variable_name: str,
-                 variable_value: object = None):
-        super().__init__(system, operation_id)
+                 variable_value: object = None,
+                 store: bool = False):
+        super().__init__(system, operation_id, store=store)
         self.__variable_name = variable_name
         self.__variable_value = variable_value
 

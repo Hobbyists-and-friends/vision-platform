@@ -11,9 +11,12 @@ from .OperationBase import OperationBase
 class AddGUIComponentOperation(OperationBase):
     def __init__(self, system: 'ISystem',
                  component_id: str,
-                 layout: str) -> None:
-        super().__init__(system, component_id)
+                 ui_component_id: str,
+                 layout: str,
+                 store: bool = False) -> None:
+        super().__init__(system, component_id, store=store)
         self.__layout = layout
+        self.__ui_component_id = ui_component_id
 
     def load(self, data: dict) -> None:
         pass
@@ -23,7 +26,7 @@ class AddGUIComponentOperation(OperationBase):
 
     def _run(self) -> None:
         self.system.application.add_component(
-            self.system.ui_components[self.operation_id], self.__layout)
+            self.system.ui_components[self.__ui_component_id], self.__layout)
 
     def update(self, publisher: 'IPublisher', data: dict) -> None:
         pass
