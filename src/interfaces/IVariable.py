@@ -13,7 +13,7 @@ class IVariable(IPublisher):
         pass
 
     @abstractproperty
-    def name(self):
+    def variable_id(self):
         pass
 
     @abstractmethod

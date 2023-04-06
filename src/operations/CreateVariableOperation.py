@@ -10,21 +10,17 @@ from src.constants import (
     NAME_KEY,
     VALUE_KEY,
 )
+from .OperationBase import OperationBase
 
 
-class CreateVariableOperation(IOperation):
+class CreateVariableOperation(OperationBase):
     def __init__(self, system: 'ISystem',
                  operation_id: str,
                  variable_name: str,
                  variable_value: object = None):
-        self.system = system
-        self.__operation_id = operation_id
+        super().__init__(system, operation_id)
         self.__variable_name = variable_name
         self.__variable_value = variable_value
-
-    @property
-    def operation_id(self) -> str:
-        return self.__operation_id
 
     def export(self) -> dict:
         pass
@@ -32,7 +28,7 @@ class CreateVariableOperation(IOperation):
     def load(self, data: dict) -> None:
         pass
 
-    def run(self, publisher: 'IPublisher' = None, data: dict = None) -> None:
+    def _run(self) -> None:
         if self.__variable_name in self.system.variables.keys():
             return
         variable = Variable(self.system, **{

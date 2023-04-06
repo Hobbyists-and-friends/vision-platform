@@ -7,6 +7,7 @@ from src.interfaces import (
 from src.utils import PublisherBase
 from src.cores import Variable
 from src.constants import (
+    NAME_KEY,
     VALUE_KEY,
     EMPTY_STRING,
     VARIABLES_KEY,
@@ -48,15 +49,8 @@ class System(PublisherBase, ISystem):
     def add_application(self, application):
         self.application = application
 
-    def run_operation(self, operation: 'IOperation') -> None:
-        operation.run(self, {
-            OPERATION_KEY: self.__operations,
-            VARIABLES_KEY: self.__variables,
-            APPLICATION_KEY: self.application,
-        })
-
     def add_variable(self, variable: 'IVariable'):
-        self.__variables[variable.name] = variable
+        self.__variables[variable.variable_id] = variable
 
     def add_operation(self, operation: 'IOperation'):
         self.__operations[operation.operation_id] = operation

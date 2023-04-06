@@ -16,7 +16,7 @@ from src.constants import (
 
 
 TEST_APPLICATION_NAME = 'Test Application'
-TEST_OPERATION = 'TestOperation'
+TEST_OPERATION_ID = 'TestOperationId'
 
 
 class IconButtonTest(unittest.TestCase):
@@ -36,6 +36,9 @@ class IconButtonTest(unittest.TestCase):
     def tearDownClass(cls):
         cls.app.exit()
 
+    def setUp(self) -> None:
+        self.system = Mock(spec=ISystem)
+
     def test_icon_button_initialization(self):
         pass
 
@@ -47,7 +50,7 @@ class IconButtonTest(unittest.TestCase):
 
     @unittest.skip('Not implemented yet')
     def test_icon_button_change_operation(self):
-        self.icon_button.assign_operation(TEST_OPERATION)
+        self.icon_button.assign_operation(TEST_OPERATION_ID)
         self.icon_button.clicked.emit(True)
         self.system.run_operation.assert_called_once_with(
             TEST_OPERATION, [], {})

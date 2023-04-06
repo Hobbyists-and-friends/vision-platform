@@ -62,11 +62,11 @@ class VariableTest(unittest.TestCase):
         self.second_test_observer = Mock(spec=IObserver)
 
     def test_get_name_of_the_variable(self):
-        self.assertEqual(self.number_variable.name, TEST_NUMBER_NAME)
-        self.assertEqual(self.string_variable.name, TEST_STRING_NAME)
+        self.assertEqual(self.number_variable.variable_id, TEST_NUMBER_NAME)
+        self.assertEqual(self.string_variable.variable_id, TEST_STRING_NAME)
 
     def test_create_variable_without_name(self):
-        self.assertEqual(self.no_name_variable.name, EMPTY_STRING)
+        self.assertEqual(self.no_name_variable.variable_id, EMPTY_STRING)
 
     def test_create_variable_without_value(self):
         self.assertEqual(self.null_variable.data[VALUE_KEY], None)

@@ -8,9 +8,12 @@ from src.constants import (
     EMPTY_STRING,
 )
 from src.utils import PublisherBase
+from src.interfaces import (
+    IVariable,
+)
 
 
-class Variable(PublisherBase):
+class Variable(PublisherBase, IVariable):
     def __init__(self, system, **kwargs):
         super().__init__(**kwargs)
         self.system = system
@@ -37,7 +40,7 @@ class Variable(PublisherBase):
         return deepcopy(self._dict)
 
     @property
-    def name(self):
+    def variable_id(self):
         return self._dict[NAME_KEY]
 
     def change_value(self, **kwargs):

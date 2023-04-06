@@ -20,10 +20,6 @@ class ISystem(IPublisher):
         raise NotImplementedError
 
     @abstractmethod
-    def run_operation(self, operation: 'IOperation'):
-        raise NotImplementedError
-
-    @abstractmethod
     def add_variable(self, variable: 'IVariable'):
         raise NotImplementedError
 

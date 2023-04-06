@@ -6,26 +6,22 @@ from src.interfaces import (
 from src.gui.customs import (
     IconButton,
 )
+from .OperationBase import OperationBase
 
 
-class CreateIconButtonOpeartion(IOperation):
+class CreateIconButtonOpeartion(OperationBase):
     def __init__(self, system: 'ISystem',
                  operation_id: str,
                  name: str):
-        self.__operation_id = operation_id
-        self.system = system
+        super().__init__(system, operation_id)
         self.__name = name
 
-    @property
-    def operation_id(self) -> str:
-        return self.__operation_id
-
-    def run(self, publisher: 'IPublisher' = None, data: dict = None) -> None:
+    def _run(self) -> None:
         component = IconButton(self.__name, self.system)
         self.system.add_ui_component(component)
 
     def update(self, publisher: 'IPublisher', data: dict) -> None:
-        self.run(publisher, data)
+        pass
 
     def load(self, data: dict) -> None:
         pass

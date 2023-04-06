@@ -5,19 +5,15 @@ from src.interfaces import (
     IGUIComponent,
     IPublisher,
 )
+from .OperationBase import OperationBase
 
 
-class AddGUIComponentOperation(IOperation):
+class AddGUIComponentOperation(OperationBase):
     def __init__(self, system: 'ISystem',
                  component_id: str,
                  layout: str) -> None:
-        self.system = system
-        self.__component_id = component_id
+        super().__init__(system, component_id)
         self.__layout = layout
-
-    @property
-    def operation_id(self) -> str:
-        return self.__component_id
 
     def load(self, data: dict) -> None:
         pass
@@ -25,9 +21,9 @@ class AddGUIComponentOperation(IOperation):
     def export(self) -> dict:
         pass
 
-    def run(self, publisher: 'IPublisher' = None, data: dict = None) -> None:
+    def _run(self) -> None:
         self.system.application.add_component(
-            self.system.ui_components[self.__component_id], self.__layout)
+            self.system.ui_components[self.operation_id], self.__layout)
 
     def update(self, publisher: 'IPublisher', data: dict) -> None:
         pass
