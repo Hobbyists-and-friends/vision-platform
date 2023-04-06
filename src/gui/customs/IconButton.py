@@ -10,14 +10,18 @@ from src.interfaces import (
     IPublisher,
     ISystem,
 )
+from src.utils import (
+    PublisherBase,
+)
 from src.constants import (
     ICON_BUTTON_DEFAULT_OPERATION,
 )
 
 
-class IconButton(QPushButton, IGUIComponent, metaclass=PyQtMetaClass):
+class IconButton(QPushButton, PublisherBase, IGUIComponent, metaclass=PyQtMetaClass):
     def __init__(self, name: str, system: 'ISystem'):
         super().__init__()
+        PublisherBase.__init__(self)
         self.__name = name
         self.system = system
         self.__operation = copy(ICON_BUTTON_DEFAULT_OPERATION)
@@ -38,4 +42,4 @@ class IconButton(QPushButton, IGUIComponent, metaclass=PyQtMetaClass):
         self.__operation = operation
 
     def _click(self):
-        print("Here")
+        self.notify()

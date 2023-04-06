@@ -11,11 +11,19 @@ from src.operations import (
     LoadLayoutOperation,
     CreateIconButtonOpeartion,
     AddGUIComponentOperation,
+    LogVariableOperation,
+    AddOperationObserverOperation,
+    CreateVariableOperation,
 )
 # from src.gui.customs import (
 
 # )
 from src.cores import System
+
+
+VARIABLE_NAME = 'Test 1'
+VARIABLE_VALUE = 'Hello World'
+BUTTON_NAME = 'Test Button'
 
 
 def main():
@@ -24,9 +32,16 @@ def main():
     operations = [
         LoadLayoutOperation(system, 'load_layout',
                             'src/assets/layouts/test_layout.ui'),
+        CreateVariableOperation(
+            system, 'create_variable 1', VARIABLE_NAME, VARIABLE_VALUE),
         CreateIconButtonOpeartion(system, 'create_icon_button',
-                                  'Test 1'),
-        AddGUIComponentOperation(system, 'Test 1', 'test_layout')
+                                  BUTTON_NAME),
+        AddGUIComponentOperation(system, 'add button',
+                                 BUTTON_NAME, 'test_layout'),
+        LogVariableOperation(system, 'log_variable',
+                             VARIABLE_NAME, store=True),
+        AddOperationObserverOperation(
+            system, 'add_observer', 'log_variable', BUTTON_NAME),
     ]
     win = ApplicationGUI(system)
     win.load_layout('src/assets/layouts/home_screen_layout.ui')

@@ -54,3 +54,10 @@ def add_vars_system(system, variable):
     })
 
     type(system).variables = variables
+
+
+def add_operation_system(system, operation):
+    operations = PropertyMock(return_value={
+        TEST_OPERATION_NAME: operation
+    })
+    type(system).operations = operations

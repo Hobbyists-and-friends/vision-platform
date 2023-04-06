@@ -28,6 +28,7 @@ class System(PublisherBase, ISystem):
         self.__ui_components = {}
         self.__variables = {}
         self.application = None
+        # self.__error = Variable()
         self.__operations = {}
 
     @property
