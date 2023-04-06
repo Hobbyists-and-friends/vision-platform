@@ -17,6 +17,9 @@ from src.interfaces import (
 )
 
 
+
+
+# Not implement
 class GridComponent(QWidget, IGUIComponent, metaclass=PyQtMetaClass):
     def __init__(self, *args,
                  columns=DEFAULT_COLUMN,

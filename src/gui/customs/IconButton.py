@@ -20,6 +20,10 @@ from .ComponentBase import ComponentBase
 
 
 class IconButton(ComponentBase, QPushButton):
+    """
+    The button with the icon.
+    """
+
     def __init__(self, system: 'ISystem',
                  component_id: str,
                  text: str):
@@ -28,11 +32,11 @@ class IconButton(ComponentBase, QPushButton):
         self.clicked.connect(self._click)
         self.setText(text)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'<IconButton name={self.component_id} />'
 
     def update(self, publisher: 'IPublisher', data: dict) -> None:
         pass
 
-    def _click(self):
+    def _click(self) -> None:
         self.notify()
