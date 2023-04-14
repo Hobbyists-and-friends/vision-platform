@@ -4,3 +4,4 @@ from .CreateIconButtonOperation import CreateIconButtonOpeartion
 from .AddGUIComponentOperation import AddGUIComponentOperation
 from .LogVariableOperation import LogVariableOperation
 from .AddOperationObserverOperation import AddOperationObserverOperation
+from .AddVariableObserverOperation import AddVariableObserverOperation

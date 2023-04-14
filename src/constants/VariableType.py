@@ -1,4 +1,5 @@
 from enum import Enum
+import numpy as np
 
 
 class VariableType(Enum):
@@ -15,5 +16,7 @@ class VariableType(Enum):
             return VariableType.NUMBER
         elif isinstance(value, str):
             return VariableType.STRING
+        elif isinstance(value, np.ndarray):
+            return VariableType.IMAGE
         else:
             return VariableType.NULL

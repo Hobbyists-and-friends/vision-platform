@@ -10,12 +10,23 @@ from src.interfaces import (
 )
 from src.constants import (
     VALUE_KEY,
+    VariableType,
 )
 from src.cores import (
     System,
 )
 from src.operations import (
     CreateVariableOperation,
+)
+
+from tests.tools import (
+    load_test_image,
+)
+from tests.constants import (
+    TEST_CREATE_VARIABLE_OPERATION_NAME,
+    TEST_IMAGE_VARIABLE_NAME,
+    TEST_VARIABLE_SECOND_VALUE,
+    TEST_SECOND_OPERATION_NAME,
 )
 
 from tests.constants import (
@@ -34,27 +45,50 @@ from tests.tools import (
 
 class CreateVariableTest(unittest.TestCase):
     def setUp(self):
-        self.variable = Mock(spec=IVariable)
-        create_mocked_int_variable(self.variable)
-
-        self.no_var_system = Mock(spec=ISystem)
-        add_no_vars_system(self.no_var_system)
-
-        self.one_var_system = Mock(spec=ISystem)
-        add_vars_system(self.one_var_system, self.variable)
+        self.system = System()
 
     def test_create_variable(self):
         operation = CreateVariableOperation(
-            self.no_var_system, TEST_OPERATION_NAME, TEST_VARIABLE_NAME, TEST_VARIABLE_VALUE)
+            self.system, TEST_OPERATION_NAME, TEST_VARIABLE_NAME, TEST_VARIABLE_VALUE)
 
         operation.run()
 
-        self.no_var_system.add_variable.assert_called_once()
+        self.assertEqual(
+            self.system.variables[TEST_VARIABLE_NAME].data[VALUE_KEY],
+            TEST_VARIABLE_VALUE,
+        )
+
+    def test_create_image_variable(self):
+        image = load_test_image()
+        operation = CreateVariableOperation(
+            self.system,
+            TEST_CREATE_VARIABLE_OPERATION_NAME,
+            TEST_IMAGE_VARIABLE_NAME,
+            image,
+        )
+
+        operation.run()
+
+        self.assertEqual(
+            self.system.variables[TEST_IMAGE_VARIABLE_NAME].type, VariableType.IMAGE)
+        self.assertAlmostEqual(
+            self.system.variables[TEST_IMAGE_VARIABLE_NAME].data[VALUE_KEY].all(
+            ),
+            image.all()
+        )
 
     def test_create_variable_with_existed_name(self):
+        CreateVariableOperation(
+            self.system, TEST_OPERATION_NAME, TEST_VARIABLE_NAME, TEST_VARIABLE_VALUE).run()
+
         operation = CreateVariableOperation(
-            self.one_var_system, TEST_OPERATION_NAME, TEST_VARIABLE_NAME, TEST_VARIABLE_VALUE)
+            self.system,
+            TEST_SECOND_OPERATION_NAME,
+            TEST_VARIABLE_NAME,
+            TEST_VARIABLE_SECOND_VALUE,
+        )
 
         operation.run()
 
-        self.one_var_system.add_variable.assert_not_called()
+        self.assertEqual(
+            self.system.variables[TEST_VARIABLE_NAME].data[VALUE_KEY], TEST_VARIABLE_VALUE)

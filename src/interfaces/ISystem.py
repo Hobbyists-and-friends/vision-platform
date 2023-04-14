@@ -1,4 +1,7 @@
 from abc import abstractmethod, abstractproperty
+from typing import (
+    Dict,
+)
 
 
 from src.interfaces import (
@@ -32,7 +35,7 @@ class ISystem(IPublisher):
             The UI components which are managed by this system.
     """
     @abstractproperty
-    def variables(self) -> dict:
+    def variables(self) -> Dict[str, 'IVariable']:
         raise NotImplementedError
 
     @abstractproperty

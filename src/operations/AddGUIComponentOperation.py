@@ -10,13 +10,13 @@ from .OperationBase import OperationBase
 
 class AddGUIComponentOperation(OperationBase):
     def __init__(self, system: 'ISystem',
+                 operation_id: str,
                  component_id: str,
-                 ui_component_id: str,
                  layout: str,
                  store: bool = False) -> None:
-        super().__init__(system, component_id, store=store)
+        super().__init__(system, operation_id, store=store)
         self.__layout = layout
-        self.__ui_component_id = ui_component_id
+        self.__ui_component_id = component_id
 
     def load(self, data: dict) -> None:
         pass

@@ -6,6 +6,7 @@ from src.gui import (
 )
 from src.gui.customs import (
     IconButton,
+    ImageDisplay,
 )
 from src.operations import (
     LoadLayoutOperation,
@@ -14,11 +15,17 @@ from src.operations import (
     LogVariableOperation,
     AddOperationObserverOperation,
     CreateVariableOperation,
+    AddVariableObserverOperation,
 )
 # from src.gui.customs import (
 
 # )
 from src.cores import System
+
+
+# The code below is used for testing purpose only.
+import cv2 as cv
+# The code above is used for testing purpose only.
 
 
 VARIABLE_NAME = 'Test 1'
@@ -29,20 +36,64 @@ BUTTON_NAME = 'Test Button'
 def main():
     app = QApplication(sys.argv)
     system = System()
+
+    # Load the test image
+    image = cv.imread('src/assets/images/test_image.jpg')
+    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+
+    system.ui_components["Test Image Display Component"] = ImageDisplay(
+        system,
+        "Test Image Display Component",
+        "Test Image"
+    )
+
     operations = [
-        LoadLayoutOperation(system, 'load_layout',
-                            'src/assets/layouts/test_layout.ui'),
+        LoadLayoutOperation(
+            system,
+            operation_id='load_layout',
+            layout_name='src/assets/layouts/test_layout.ui'),
         CreateVariableOperation(
-            system, 'create_variable 1', VARIABLE_NAME, VARIABLE_VALUE),
-        CreateIconButtonOpeartion(system, 'create_icon_button',
-                                  BUTTON_NAME),
-        AddGUIComponentOperation(system, 'add button',
-                                 BUTTON_NAME, 'test_layout'),
-        LogVariableOperation(system, 'log_variable',
-                             VARIABLE_NAME, store=True),
+            system,
+            operation_id='create_variable 2',
+            variable_name="Test Image",
+            variable_value=image),
+        CreateVariableOperation(
+            system,
+            operation_id='create_variable 1',
+            variable_name=VARIABLE_NAME,
+            variable_value=VARIABLE_VALUE),
+        CreateIconButtonOpeartion(
+            system,
+            operation_id='create_icon_button',
+            component_id=BUTTON_NAME,
+            text=BUTTON_NAME),
+        AddGUIComponentOperation(
+            system,
+            operation_id='add image',
+            component_id='Test Image Display Component',
+            layout='test_layout'),
+        AddGUIComponentOperation(
+            system,
+            operation_id='add button',
+            component_id=BUTTON_NAME,
+            layout='test_layout'),
+        LogVariableOperation(
+            system,
+            operation_id='log_variable',
+            variable_id=VARIABLE_NAME,
+            store=True),
         AddOperationObserverOperation(
-            system, 'add_observer', 'log_variable', BUTTON_NAME),
+            system,
+            operation_id='add_observer',
+            observer_operation_id='log_variable',
+            observer_ui_component_id=BUTTON_NAME),
+        AddVariableObserverOperation(
+            system,
+            operation_id='add_variable_operation',
+            variable_id='Test Image',
+            observer_id='Test Image Display Component'),
     ]
+
     win = ApplicationGUI(system)
     win.load_layout('src/assets/layouts/home_screen_layout.ui')
     system.add_application(win)

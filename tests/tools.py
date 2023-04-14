@@ -1,4 +1,5 @@
 from unittest.mock import PropertyMock
+import cv2 as cv
 
 from src.constants import (
     VALUE_KEY,
@@ -9,6 +10,7 @@ from tests.constants import (
     TEST_VARIABLE_VALUE,
     TEST_OPERATION_NAME,
     TEST_UI_COMPONENT_NAME,
+    TEST_IMAGE_PATH,
 )
 
 
@@ -61,3 +63,9 @@ def add_operation_system(system, operation):
         TEST_OPERATION_NAME: operation
     })
     type(system).operations = operations
+
+
+def load_test_image():
+    image = cv.imread(TEST_IMAGE_PATH)
+    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+    return image

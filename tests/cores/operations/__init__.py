@@ -5,3 +5,4 @@ from .AddGUIComponentTest import AddGUIComponentTest
 from .OperationBaseTest import OperationBaseTest
 from .LogVariableTest import LogVariableTest
 from .AddOperationObserverTest import AddOpeartionObserverTest
+from .AddVariableObserverTest import AddVariableObserverTest
