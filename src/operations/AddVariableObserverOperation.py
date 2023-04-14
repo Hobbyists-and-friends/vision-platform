@@ -29,5 +29,6 @@ class AddVariableObserverOperation(OperationBase):
 
     def _run(self) -> None:
         variable = self.system.variables[self.__variable_id]
-        variable.add_observer(self.system.ui_components[self.__observer_id])
+        variable.add_observer(
+            self.system.observerable_components[self.__observer_id])
         variable.notify()

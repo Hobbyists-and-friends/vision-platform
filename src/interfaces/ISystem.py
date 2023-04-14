@@ -10,6 +10,7 @@ from src.interfaces import (
     IVariable,
     IApplicationGUI,
     IGUIComponent,
+    IObserver,
 )
 
 
@@ -42,46 +43,14 @@ class ISystem(IPublisher):
     def error(self) -> 'IVariable':
         raise NotImplementedError
 
-    @abstractmethod
-    def add_variable(self, variable: 'IVariable') -> None:
-        """
-        Add a variable to this system.
-
-        Args:
-            variable: IVariable
-                The variable which will be added to this system.
-        """
+    @abstractproperty
+    def ui_components(self) -> Dict[str, 'IGUIComponent']:
         raise NotImplementedError
 
-    @abstractmethod
-    def add_application(self, application: 'IApplicationGUI') -> None:
-        """
-        Add an application to this system.
-
-        Args:
-            application: IApplicationGUI
-                The application which will be added to this system.
-        """
+    @abstractproperty
+    def operations(self) -> Dict[str, 'IOperation']:
         raise NotImplementedError
 
-    @abstractmethod
-    def add_operation(self, operation: 'IOperation') -> None:
-        """
-        Add an operation to this system.
-
-        Args:
-            operation: IOperation
-                The operation which will be added to this system.
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def add_ui_component(self, ui_component: 'IGUIComponent') -> None:
-        """
-        Add a UI component to this system.
-
-        Args:
-            ui_component: IGUIComponent
-                The UI component which will be added to this system.
-        """
+    @abstractproperty
+    def observerable_components(self) -> Dict[str, 'IObserver']:
         raise NotImplementedError

@@ -38,7 +38,7 @@ class OperationBase(IOperation):
         The run method will be called to execute this operation. 
         """
         if self.__store:
-            self.system.add_operation(self)
+            self.system.operations[self.operation_id] = self
         self._run()
 
     @abstractmethod

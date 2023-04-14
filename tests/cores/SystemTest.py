@@ -53,26 +53,3 @@ class SystemTest(unittest.TestCase):
 
     def test_system_has_no_variables_at_the_beginning(self):
         self.assertEqual(len(self.system.variables.keys()), 0)
-
-    def test_system_is_subclass_of_publisher_base(self):
-        self.assertTrue(isinstance(self.system, PublisherBase))
-
-    def test_system_add_variables_to_the_system(self):
-        self.system.add_variable(self.variable)
-        print(self.system.variables)
-        self.assertEqual(
-            self.system.variables[TEST_VARIABLE_NAME].data[NAME_KEY], TEST_VARIABLE_NAME)
-        self.assertEqual(
-            self.system.variables[TEST_VARIABLE_NAME].data[VALUE_KEY], TEST_VARIABLE_VALUE)
-
-    def test_system_add_operation_to_the_system(self):
-        self.system.add_operation(self.operation)
-
-        self.assertEqual(
-            self.system.operations[TEST_OPERATION_NAME], self.operation)
-
-    def test_system_add_ui_component_to_the_system(self):
-        self.system.add_ui_component(self.ui_component)
-
-        self.assertEqual(
-            self.system.ui_components[TEST_UI_COMPONENT_NAME], self.ui_component)

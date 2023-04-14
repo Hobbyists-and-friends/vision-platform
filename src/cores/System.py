@@ -1,9 +1,14 @@
+from typing import (
+    Dict,
+)
+
 from src.interfaces import (
     ISystem,
     IOperation,
     IVariable,
     IGUIComponent,
     IApplicationGUI,
+    IObserver,
 )
 from src.utils import PublisherBase
 from src.cores import Variable
@@ -71,14 +76,9 @@ class System(PublisherBase, ISystem):
     def operations(self) -> dict:
         return self.__operations
 
-    def add_application(self, application: 'IApplicationGUI') -> None:
-        self.application = application
-
-    def add_variable(self, variable: 'IVariable') -> None:
-        self.__variables[variable.variable_id] = variable
-
-    def add_operation(self, operation: 'IOperation') -> None:
-        self.__operations[operation.operation_id] = operation
-
-    def add_ui_component(self, ui_component: 'IGUIComponent') -> None:
-        self.__ui_components[ui_component.component_id] = ui_component
+    @property
+    def observerable_components(self) -> Dict[str, 'IObserver']:
+        return dict(
+            **self.operations,
+            **self.ui_components,
+        )

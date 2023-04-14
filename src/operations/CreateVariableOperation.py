@@ -36,7 +36,7 @@ class CreateVariableOperation(OperationBase):
             NAME_KEY: self.__variable_name,
             VALUE_KEY: self.__variable_value,
         })
-        self.system.add_variable(variable)
+        self.system.variables[self.__variable_name] = variable
 
     def update(self, publisher: 'IPublisher', data: dict) -> None:
         pass

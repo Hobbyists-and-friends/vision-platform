@@ -21,7 +21,7 @@ class CreateIconButtonOpeartion(OperationBase):
 
     def _run(self) -> None:
         component = IconButton(self.system, self.__component_id, self.__text)
-        self.system.add_ui_component(component)
+        self.system.ui_components[component.component_id] = component
 
     def update(self, publisher: 'IPublisher', data: dict) -> None:
         pass

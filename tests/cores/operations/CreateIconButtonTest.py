@@ -10,6 +10,9 @@ from src.operations import (
 from src.interfaces import (
     ISystem,
 )
+from src.cores import (
+    System,
+)
 
 
 from tests.constants import (
@@ -23,7 +26,7 @@ TEST_BUTTON_TEXT = 'test_button_text'
 
 class CreateIconButtonTest(unittest.TestCase):
     def setUp(self):
-        self.system = Mock(spec=ISystem)
+        self.system = System()
 
     def test_create_icon_button(self):
         operation = CreateIconButtonOpeartion(system=self.system,
@@ -31,6 +34,8 @@ class CreateIconButtonTest(unittest.TestCase):
                                               component_id=TEST_NAME,
                                               text=TEST_BUTTON_TEXT)
 
+        print(self.system.ui_components)
         operation.run()
 
-        self.system.add_ui_component.assert_called_once()
+        self.assertEqual(
+            self.system.ui_components[TEST_NAME].component_id, TEST_NAME)

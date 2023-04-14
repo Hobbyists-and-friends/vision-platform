@@ -23,6 +23,7 @@ from tests.constants import (
     TEST_IMAGE_VARIABLE_NAME,
     TEST_CREATE_VARIABLE_OPERATION_NAME,
     TEST_UI_COMPONENT_NAME,
+    TEST_OPERATION_NAME,
 )
 from tests.tools import (
     load_test_image,
@@ -36,6 +37,7 @@ class AddVariableObserverTest(unittest.TestCase):
     def setUp(self):
         self.system = System()
         self.observer = Mock(spec=IObserver)
+        self.opertion_observer = Mock(spec=IObserver)
 
         self._setup_image()
         self._setup_component()
@@ -49,6 +51,7 @@ class AddVariableObserverTest(unittest.TestCase):
 
     def _setup_component(self):
         self.system.ui_components[TEST_UI_COMPONENT_NAME] = self.observer
+        self.system.operations[TEST_OPERATION_NAME] = self.opertion_observer
 
     def test_call_when_the_variable_notify(self):
         AddVariableObserverOperation(
@@ -62,5 +65,20 @@ class AddVariableObserverTest(unittest.TestCase):
 
         self.assertEqual(
             self.observer.update.call_count,
+            2
+        )
+
+    def test_call_when_the_operation_observe_a_variable(self):
+        AddVariableObserverOperation(
+            self.system,
+            operation_id=ADD_VARIABLE_OBSERVER_TEST_NAME,
+            variable_id=TEST_IMAGE_VARIABLE_NAME,
+            observer_id=TEST_OPERATION_NAME,
+        ).run()
+
+        self.system.variables[TEST_IMAGE_VARIABLE_NAME].notify()
+
+        self.assertEqual(
+            self.opertion_observer.update.call_count,
             2
         )
