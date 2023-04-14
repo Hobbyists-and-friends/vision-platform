@@ -14,11 +14,15 @@ from src.cores import (
 )
 from src.operations import (
     AddGUIComponentOperation,
+    CreateVariableOperation,
 )
 from tests.constants import (
     TEST_OPERATION_NAME,
     TEST_UI_COMPONENT_NAME,
     TEST_COMPONENT_LAYOUT,
+    TEST_CREATE_VARIABLE_OPERATION_NAME,
+    TEST_VARIABLE_NAME,
+    TEST_VARIABLE_VALUE,
 )
 from tests.tools import (
     create_mocked_system,
@@ -58,3 +62,16 @@ class OperationBaseTest(unittest.TestCase):
         self.operation.run()
 
         self.assertTrue(TEST_OPERATION_NAME in self.system.operations)
+
+    def test_run_operation_but_not_be_run(self):
+        self.operation = CreateVariableOperation(
+            self.system,
+            operation_id=TEST_CREATE_VARIABLE_OPERATION_NAME,
+            variable_name=TEST_VARIABLE_NAME,
+            variable_value=TEST_VARIABLE_VALUE,
+            run_at_first=False,
+        )
+
+        self.operation.run()
+
+        self.assertDictEqual(self.system.variables, {})

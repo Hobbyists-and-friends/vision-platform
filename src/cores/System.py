@@ -59,10 +59,15 @@ class System(PublisherBase, ISystem):
         self.application = None
         # self.__error = Variable()
         self.__operations = {}
+        self.__applications = {}
 
     @property
     def variables(self) -> dict:
         return self.__variables
+
+    @variables.setter
+    def variables(self, variables: dict) -> None:
+        self.__variables = variables
 
     @property
     def error(self) -> 'IVariable':
@@ -72,9 +77,17 @@ class System(PublisherBase, ISystem):
     def ui_components(self) -> dict:
         return self.__ui_components
 
+    @ui_components.setter
+    def ui_components(self, ui_components: dict) -> None:
+        self.__ui_components = ui_components
+
     @property
     def operations(self) -> dict:
         return self.__operations
+
+    @operations.setter
+    def operations(self, operations: dict) -> None:
+        self.__operations = operations
 
     @property
     def observerable_components(self) -> Dict[str, 'IObserver']:
@@ -82,3 +95,14 @@ class System(PublisherBase, ISystem):
             **self.operations,
             **self.ui_components,
         )
+
+    @property
+    def applications(self) -> Dict[str, 'IApplicationGUI']:
+        return self.__applications
+
+    @applications.setter
+    def applications(self, applications: Dict[str, 'IApplicationGUI']) -> None:
+        self.__applications = applications
+
+    def add_application(self, application: 'IApplicationGUI') -> None:
+        self.application = application

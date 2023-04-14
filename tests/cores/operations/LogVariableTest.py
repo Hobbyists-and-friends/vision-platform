@@ -10,8 +10,12 @@ from src.interfaces import (
     IVariable,
     IApplicationGUI,
 )
+from src.cores import (
+    System,
+)
 from src.operations import (
     LogVariableOperation,
+    CreateVariableOperation,
 )
 
 from tests.constants import (

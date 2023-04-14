@@ -34,7 +34,6 @@ class CreateIconButtonTest(unittest.TestCase):
                                               component_id=TEST_NAME,
                                               text=TEST_BUTTON_TEXT)
 
-        print(self.system.ui_components)
         operation.run()
 
         self.assertEqual(

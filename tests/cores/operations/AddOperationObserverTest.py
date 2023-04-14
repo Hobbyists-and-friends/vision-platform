@@ -8,41 +8,39 @@ from src.interfaces import (
     ISystem,
     IOperation,
     IApplicationGUI,
-    IGUIComponent,
 )
-from src.utils import (
-    PublisherBase,
+from src.cores import (
+    System,
 )
-
 from tests.constants import (
     TEST_OPERATION_NAME,
+    TEST_VARIABLE_NAME,
+    TEST_CREATE_VARIABLE_OPERATION_NAME,
+    TEST_VARIABLE_VALUE,
     TEST_UI_COMPONENT_NAME,
     TEST_ADD_OBSERVER_OPERATION_NAME,
+    TEST_CREATE_UI_COMPONENT_OPERATION_ID,
+    TEST_UI_COMPONENT_NAME,
 )
-from tests.tools import (
-    create_mocked_int_variable,
-    create_mocked_system,
-    create_mocked_ui_component,
-    creat_mocked_operation,
-    add_operation_system,
-)
-
 from src.operations import (
     AddOperationObserverOperation,
+    CreateIconButtonOpeartion,
+    LogVariableOperation,
+    CreateVariableOperation,
 )
 
 
 class AddOpeartionObserverTest(unittest.TestCase):
     def setUp(self) -> None:
-        self.system = Mock(spec=ISystem)
-        self.application = Mock(spec=IApplicationGUI)
-        self.ui_component = PublisherBase()
-        self.operation = Mock(spec=IOperation)
+        self.system = System()
+        self.system.operations[TEST_OPERATION_NAME] = Mock(spec=IOperation)
 
-        create_mocked_system(self.system, self.ui_component, self.application)
-        create_mocked_ui_component(self.ui_component)
-        creat_mocked_operation(self.operation)
-        add_operation_system(self.system, self.operation)
+        CreateIconButtonOpeartion(
+            system=self.system,
+            operation_id=TEST_CREATE_UI_COMPONENT_OPERATION_ID,
+            component_id=TEST_UI_COMPONENT_NAME,
+            text=TEST_UI_COMPONENT_NAME,
+        ).run()
 
     def test_the_operation_should_update_when_the_ui_component_notify(self):
         operation = AddOperationObserverOperation(
@@ -53,6 +51,6 @@ class AddOpeartionObserverTest(unittest.TestCase):
         )
 
         operation.run()
+        self.system.ui_components[TEST_UI_COMPONENT_NAME].notify()
 
-        self.ui_component.notify()
-        self.operation.update.assert_called_once()
+        self.system.operations[TEST_OPERATION_NAME].update.assert_called_once()

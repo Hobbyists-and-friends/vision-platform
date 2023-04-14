@@ -1,6 +1,10 @@
 from enum import Enum
 import numpy as np
 
+from src.interfaces import (
+    IOperation,
+)
+
 
 class VariableType(Enum):
     NUMBER = 'number'
@@ -9,6 +13,7 @@ class VariableType(Enum):
     IMAGE = 'image'
     OPERATION = 'operation'
     OPERATION_FLOW = 'operation_flow'
+    APPLICATION = 'application'
     NULL = 'null'
 
     def get_type_from_value(value: 'object') -> 'VariableType':
@@ -18,5 +23,7 @@ class VariableType(Enum):
             return VariableType.STRING
         elif isinstance(value, np.ndarray):
             return VariableType.IMAGE
+        elif isinstance(value, list) and isinstance(value[0], IOperation):
+            return VariableType.APPLICATION
         else:
             return VariableType.NULL

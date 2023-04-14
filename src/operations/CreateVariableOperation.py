@@ -18,8 +18,9 @@ class CreateVariableOperation(OperationBase):
                  operation_id: str,
                  variable_name: str,
                  variable_value: object = None,
-                 store: bool = False):
-        super().__init__(system, operation_id, store=store)
+                 store: bool = False,
+                 run_at_first: bool = True):
+        super().__init__(system, operation_id, store=store, run_at_first=run_at_first)
         self.__variable_name = variable_name
         self.__variable_value = variable_value
 

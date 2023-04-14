@@ -54,3 +54,11 @@ class ISystem(IPublisher):
     @abstractproperty
     def observerable_components(self) -> Dict[str, 'IObserver']:
         raise NotImplementedError
+
+    @abstractproperty
+    def applications(self) -> Dict[str, 'IVariable']:
+        raise NotImplementedError
+
+    @abstractmethod
+    def add_application(self, application: 'IApplicationGUI') -> None:
+        raise NotImplementedError

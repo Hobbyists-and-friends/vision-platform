@@ -6,3 +6,8 @@ from .OperationBaseTest import OperationBaseTest
 from .LogVariableTest import LogVariableTest
 from .AddOperationObserverTest import AddOpeartionObserverTest
 from .AddVariableObserverTest import AddVariableObserverTest
+from .ChangeVariableValueTest import ChangeVariableValueTest
+from .CreateApplicationTest import CreateApplicationTest
+from .ResetSystemTest import ResetSystemTest
+from .RunApplicationTest import RunApplicationTest
+from .LoadImageTest import LoadImageTest

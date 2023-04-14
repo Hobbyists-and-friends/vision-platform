@@ -59,7 +59,7 @@ class Variable(PublisherBase, IVariable):
 
     @property
     def data(self) -> dict:
-        return deepcopy(self._dict)
+        return self._dict
 
     @property
     def variable_id(self) -> str:
@@ -79,3 +79,6 @@ class Variable(PublisherBase, IVariable):
             if VariableType.get_type_from_value(kwargs[VALUE_KEY]) == self.type:
                 self._dict.update(kwargs)
                 self.notify()
+
+    def __repr__(self) -> str:
+        return f"<Variable {self.variable_id} value={self.data[VALUE_KEY]}>"

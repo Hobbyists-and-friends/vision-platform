@@ -24,10 +24,15 @@ class OperationBase(IOperation):
             The flag to store this operation to the system, default is False.
     """
 
-    def __init__(self, system: 'ISystem', operation_id: str, store: bool = False):
+    def __init__(self,
+                 system: 'ISystem',
+                 operation_id: str,
+                 store: bool = False,
+                 run_at_first: bool = True):
         self.system = system
         self.__operation_id = operation_id
         self.__store = store
+        self.__run_at_first = run_at_first
 
     @property
     def operation_id(self) -> str:
@@ -39,7 +44,8 @@ class OperationBase(IOperation):
         """
         if self.__store:
             self.system.operations[self.operation_id] = self
-        self._run()
+        if self.__run_at_first:
+            self._run()
 
     @abstractmethod
     def _run(self) -> None:

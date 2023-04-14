@@ -34,6 +34,8 @@ class ApplicationGUI(QMainWindow):
         self.setWindowTitle(APP_NAME)
         self.resize(*APP_SIZE)
         self.__layouts = {}
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
 
     @property
     def layouts(self) -> dict:
@@ -47,7 +49,8 @@ class ApplicationGUI(QMainWindow):
             path: str
                 The path to the layout file.
         """
-        loadUi(path, self)
+        self.__clearCentralWidget()
+        loadUi(path, self.central_widget)
 
     def add_component(self, component: 'IGUIComponent', layout: str) -> None:
         """
@@ -57,4 +60,14 @@ class ApplicationGUI(QMainWindow):
             component: IGUIComponent
                 The component which will be added to the layout.
         """
-        self.findChild(QLayout, layout).layout().addWidget(component)
+        self.central_widget.findChild(
+            QLayout, layout).layout().addWidget(component)
+
+    def __clearCentralWidget(self):
+        """
+        Clear the central widget.
+        """
+        child_widgets = self.central_widget.findChildren(QWidget)
+
+        for child_widget in child_widgets:
+            child_widget.deleteLater()
