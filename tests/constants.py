@@ -2,6 +2,8 @@ TEST_VARIABLE_NAME = 'test_variable'
 TEST_VARIABLE_VALUE = 3
 TEST_VARIABLE_SECOND_VALUE = 6
 
+TEST_EMPTY_VARIABLE_NAME = 'test_empty_variable'
+
 TEST_OPERATION_NAME = 'test_operation'
 TEST_SECOND_OPERATION_NAME = 'test_second_operation'
 
@@ -27,3 +29,11 @@ TEST_LOAD_IMAGE_OPERATION_ID = 'test_load_image_operation'
 TEST_CREATE_IMAGE_PATH_VARIABLE_OPERATION_ID = 'test_create_image_path_variable_operation'
 TEST_IMAGE_PATH_VARIABLE_NAME = 'test_image_path_variable'
 TEST_LOAD_IMAGE_PATH = 'src/assets/images/test_image.jpg'
+
+TEST_CREATE_IMAGE_DISPLAY_OPERATION_ID = 'test_create_image_display_operation'
+TEST_IMAGE_DISPLAY_COMPONENT_ID = 'test_image_display_component_id'
+
+TEST_IMAGE_SOURCE_NAME = 'test_image_source_name'
+TEST_IMAGE_RESULT_NAME = 'test_image_result_name'
+
+TEST_CONVERT_IMAGE_TO_GRAY_OPERATION_ID = 'test_convert_image_to_gray_operation'

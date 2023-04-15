@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import (
     QLabel,
+    QSizePolicy,
 )
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import (
     QPixmap,
     QImage,
@@ -30,14 +32,23 @@ class ImageDisplay(ComponentBase, QLabel):
         QLabel.__init__(self)
         ComponentBase.__init__(self, system, component_id)
         self.__variable_id = variable_id
+        self.setScaledContents(True)
+        self.setAlignment(Qt.AlignCenter | Qt.AlignCenter)
 
     def __repr__(self) -> str:
         return f'<ImageDisplay name={self.component_id} variable={self.__variable_id}/>'
 
     def update(self, publisher: 'IPublisher', data: dict) -> None:
-        img_data = data[VALUE_KEY]
+        if data[VALUE_KEY] is not None:
+            img_data = data[VALUE_KEY]
 
-        image = QImage(
-            img_data, img_data.shape[1], img_data.shape[0], QImage.Format_RGB888)
-        pixmap = QPixmap.fromImage(image)
-        self.setPixmap(pixmap.scaled(self.size(), aspectRatioMode=True))
+            if len(img_data.shape) == 2:
+                format = QImage.Format_Grayscale8
+            else:
+                format = QImage.Format_RGB888
+
+            image = QImage(
+                img_data, img_data.shape[1], img_data.shape[0], format)
+            pixmap = QPixmap.fromImage(image)
+            self.setPixmap(pixmap.scaled(
+                self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))

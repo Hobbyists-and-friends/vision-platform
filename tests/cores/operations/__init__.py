@@ -11,3 +11,5 @@ from .CreateApplicationTest import CreateApplicationTest
 from .ResetSystemTest import ResetSystemTest
 from .RunApplicationTest import RunApplicationTest
 from .LoadImageTest import LoadImageTest
+from .CreateImageDisplayTest import CreateImageDisplayTest
+from .ConvertImageToGrayTest import ConvertImageToGrayTest

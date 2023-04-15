@@ -19,6 +19,9 @@ from src.operations import (
     CreateApplicationOperation,
     RunApplicationOperation,
     ChangeVariableValueOperation,
+    CreateImageDisplayOperation,
+    LoadImageOperation,
+    ConvertImageToGrayOperation,
 )
 # from src.gui.customs import (
 
@@ -53,6 +56,18 @@ TEST_APPLICATION_RUN_HOME_APPLICATION_ID = 'Run Home Application'
 TEST_APPLICATION_LOG_VARIABLE_OPERATION_ID = 'Log Variable Operation'
 TEST_APPLICATION_VARIABLE_NAME = 'Test Variable'
 TEST_APPLICATION_VARIABLE_VALUE = 'Test Value'
+
+TEST_APPLICATION_IMAGE_PATH_VARIABLE_NAME = 'Test Image Path Variable'
+TEST_APPLICATION_IMAGE_PATH_VARIABLE_VALUE = 'src/assets/images/test_image.jpg'
+
+TEST_IMAGE_VARIABLE_NAME = 'Test Image Variable'
+
+TEST_IMAGE_DISPLAY_COMPONENT_ID = 'Test Image Display Component'
+
+TEST_APPLICATION_RESULT_IMAGE_VARIABLE_NAME = 'Test Result Image Variable'
+TEST_RESULT_IMAGE_VARIABLE_NAME = 'Test Result Image Variable'
+
+TEST_RESULT_IMAGE_DISPLAY_COMPONENT_ID = 'Test Result Image Display Component'
 
 
 def main():
@@ -123,7 +138,29 @@ def main():
                 LoadLayoutOperation(
                     system=system,
                     operation_id='Load Test Application Layout',
-                    layout_name='src/assets/layouts/test_layout.ui',
+                    layout_name='src/assets/layouts/test_application_layout.ui',
+                ),
+                CreateVariableOperation(
+                    system=system,
+                    operation_id='Create Image Path Variable',
+                    variable_name=TEST_APPLICATION_IMAGE_PATH_VARIABLE_NAME,
+                    variable_value=TEST_APPLICATION_IMAGE_PATH_VARIABLE_VALUE,
+                ),
+                CreateVariableOperation(
+                    system=system,
+                    operation_id='Create Image Variable',
+                    variable_name=TEST_IMAGE_VARIABLE_NAME,
+                ),
+                LoadImageOperation(
+                    system=system,
+                    operation_id='Load Image',
+                    variable_id=TEST_IMAGE_VARIABLE_NAME,
+                    image_path_variable_id=TEST_APPLICATION_IMAGE_PATH_VARIABLE_NAME,
+                ),
+                CreateVariableOperation(
+                    system=system,
+                    operation_id='Create Result Image Variable',
+                    variable_name=TEST_APPLICATION_RESULT_IMAGE_VARIABLE_NAME,
                 ),
                 CreateVariableOperation(
                     system=system,
@@ -147,7 +184,7 @@ def main():
                     system=system,
                     operation_id='Add Log Variable Button',
                     component_id=TEST_APPLICATION_LOG_VARIABLE_BUTTON,
-                    layout='test_layout',
+                    layout='button_layout',
                 ),
                 CreateIconButtonOpeartion(
                     system=system,
@@ -155,11 +192,47 @@ def main():
                     component_id=TEST_APPLICATION_RUN_HOME_APPLICATION_BUTTON,
                     text='Run Home Application',
                 ),
+                CreateImageDisplayOperation(
+                    system=system,
+                    operation_id='Create Image Display',
+                    component_id=TEST_IMAGE_DISPLAY_COMPONENT_ID,
+                    variable_id=TEST_IMAGE_VARIABLE_NAME,
+                ),
+                CreateImageDisplayOperation(
+                    system=system,
+                    operation_id='Create Result Image Display',
+                    component_id=TEST_RESULT_IMAGE_DISPLAY_COMPONENT_ID,
+                    variable_id=TEST_APPLICATION_RESULT_IMAGE_VARIABLE_NAME,
+                ),
+                AddGUIComponentOperation(
+                    system=system,
+                    operation_id='Add Image Display',
+                    component_id=TEST_IMAGE_DISPLAY_COMPONENT_ID,
+                    layout='source_image_layout',
+                ),
+                AddGUIComponentOperation(
+                    system=system,
+                    operation_id='Add Result Image Display',
+                    component_id=TEST_RESULT_IMAGE_DISPLAY_COMPONENT_ID,
+                    layout='result_image_layout',
+                ),
+                AddVariableObserverOperation(
+                    system=system,
+                    operation_id='Add Image display observer',
+                    variable_id=TEST_IMAGE_VARIABLE_NAME,
+                    observer_id=TEST_IMAGE_DISPLAY_COMPONENT_ID,
+                ),
+                AddVariableObserverOperation(
+                    system=system,
+                    operation_id='Add Result Image display observer',
+                    variable_id=TEST_APPLICATION_RESULT_IMAGE_VARIABLE_NAME,
+                    observer_id=TEST_RESULT_IMAGE_DISPLAY_COMPONENT_ID,
+                ),
                 AddGUIComponentOperation(
                     system=system,
                     operation_id='Add Run Home Application Button',
                     component_id=TEST_APPLICATION_RUN_HOME_APPLICATION_BUTTON,
-                    layout='test_layout',
+                    layout='button_layout',
                 ),
                 RunApplicationOperation(
                     system=system,
@@ -180,6 +253,12 @@ def main():
                     observer_operation_id=TEST_APPLICATION_LOG_VARIABLE_OPERATION_ID,
                     observer_ui_component_id=TEST_APPLICATION_LOG_VARIABLE_BUTTON,
                 ),
+                ConvertImageToGrayOperation(
+                    system=system,
+                    operation_id='Convert Image to Gray',
+                    source_variable_id=TEST_IMAGE_VARIABLE_NAME,
+                    result_variable_id=TEST_APPLICATION_RESULT_IMAGE_VARIABLE_NAME,
+                ),
             ]
         ),
         RunApplicationOperation(
@@ -195,7 +274,7 @@ def main():
     for operation in operations:
         operation.run()
 
-    win.show()
+    win.showMaximized()
     sys.exit(app.exec_())
 
 

@@ -2,9 +2,9 @@ from PyQt5.QtWidgets import (
     QMainWindow,
     QWidget,
     QLayout,
+    QDesktopWidget,
 )
 from PyQt5.uic import loadUi
-from PyQt5.Qt import Qt
 
 from src.constants import (
     APP_SIZE,
@@ -14,11 +14,14 @@ from src.interfaces import (
     IGUIComponent,
     ISystem,
 )
+from src.utils import (
+    find_all_layouts,
+)
 
 
 class ApplicationGUI(QMainWindow):
     """
-    The main window of this application which will be manipulated by all operations. 
+    The main window of this application which will be manipulated by all operations.
 
     Attributes:
         system: ISystem
@@ -32,10 +35,22 @@ class ApplicationGUI(QMainWindow):
         super().__init__(*args, **kwargs)
         self.system = system
         self.setWindowTitle(APP_NAME)
-        self.resize(*APP_SIZE)
+        app_size = self.__get_app_size()
+        self.resize(*app_size)
+        self.setMaximumSize(*app_size)
+        self.setMinimumSize(*app_size)
         self.__layouts = {}
-        self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
+        self.__clearCentralWidget()
+
+    def __get_app_size(self) -> tuple:
+        """
+        Get the size of the application.
+
+        Returns:
+            tuple: The size of the application.
+        """
+        screen_size = QDesktopWidget().availableGeometry()
+        return (screen_size.width() * 0.95, screen_size.height() * 0.95)
 
     @property
     def layouts(self) -> dict:
@@ -60,6 +75,7 @@ class ApplicationGUI(QMainWindow):
             component: IGUIComponent
                 The component which will be added to the layout.
         """
+        # self.layouts[layout].addWidget(component)
         self.central_widget.findChild(
             QLayout, layout).layout().addWidget(component)
 
@@ -67,7 +83,9 @@ class ApplicationGUI(QMainWindow):
         """
         Clear the central widget.
         """
-        child_widgets = self.central_widget.findChildren(QWidget)
+        # child_widgets = self.central_widget.findChildren(QWidget)
 
-        for child_widget in child_widgets:
-            child_widget.deleteLater()
+        # for child_widget in child_widgets:
+        #     child_widget.deleteLater()
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)

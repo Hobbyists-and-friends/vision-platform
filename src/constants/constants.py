@@ -9,7 +9,7 @@ EMPTY_STRING = ''
 
 
 APP_NAME = 'Vision Platform'
-APP_SIZE = (600, 400)
+APP_SIZE = (400, 200)
 
 
 DEFAULT_COLUMN = 5
