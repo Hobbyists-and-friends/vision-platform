@@ -7,6 +7,7 @@ from src.gui import (
 from src.gui.customs import (
     IconButton,
     ImageDisplay,
+    Slider,
 )
 from src.operations import (
     LoadLayoutOperation,
@@ -22,6 +23,9 @@ from src.operations import (
     CreateImageDisplayOperation,
     LoadImageOperation,
     ConvertImageToGrayOperation,
+    CreateSliderOperation,
+    AssignVariableWithUIComponentOperation,
+    ConvertImageToBinaryOperation,
 )
 # from src.gui.customs import (
 
@@ -55,7 +59,7 @@ TEST_APPLICATION_RUN_HOME_APPLICATION_ID = 'Run Home Application'
 
 TEST_APPLICATION_LOG_VARIABLE_OPERATION_ID = 'Log Variable Operation'
 TEST_APPLICATION_VARIABLE_NAME = 'Test Variable'
-TEST_APPLICATION_VARIABLE_VALUE = 'Test Value'
+TEST_APPLICATION_VARIABLE_VALUE = 3
 
 TEST_APPLICATION_IMAGE_PATH_VARIABLE_NAME = 'Test Image Path Variable'
 TEST_APPLICATION_IMAGE_PATH_VARIABLE_VALUE = 'src/assets/images/test_image.jpg'
@@ -69,10 +73,24 @@ TEST_RESULT_IMAGE_VARIABLE_NAME = 'Test Result Image Variable'
 
 TEST_RESULT_IMAGE_DISPLAY_COMPONENT_ID = 'Test Result Image Display Component'
 
+TEST_APPLICATION_BINARY_IMAGE_VARIABLE_NAME = 'Test Binary Image Variable'
+TEST_APPLICATION_BINARY_IMAGE_DISPLAY_COMPONENT_ID = 'Test Binary Image Display Component'
+TEST_APPLICATION_CONVERT_IMAGE_TO_BINARY_OPERATION_ID = 'Convert Image To Binary Operation'
+
+SLIDER_COMPONENT_ID = 'Test Slider Component'
+
+TEST_APPLICATION_CONVERT_IMAGE_TO_BINARY_OPERATION_ID = 'Convert Image To Binary Operation'
+
 
 def main():
     app = QApplication(sys.argv)
     system = System()
+
+    CreateSliderOperation(
+        system=system,
+        operation_id='Create Slider',
+        component_id=SLIDER_COMPONENT_ID,
+    ).run()
 
     operations = [
         CreateApplicationOperation(
@@ -168,17 +186,52 @@ def main():
                     variable_name=TEST_APPLICATION_VARIABLE_NAME,
                     variable_value=TEST_APPLICATION_VARIABLE_VALUE,
                 ),
+                CreateVariableOperation(
+                    system=system,
+                    operation_id='Create Binary Image Variable',
+                    variable_name=TEST_APPLICATION_BINARY_IMAGE_VARIABLE_NAME,
+                ),
                 CreateIconButtonOpeartion(
                     system=system,
                     operation_id='Create Log Variable Button',
                     component_id=TEST_APPLICATION_LOG_VARIABLE_BUTTON,
                     text='Log Variable',
                 ),
+                CreateImageDisplayOperation(
+                    system=system,
+                    operation_id='Create Image Display for binary image',
+                    component_id=TEST_APPLICATION_BINARY_IMAGE_DISPLAY_COMPONENT_ID,
+                    variable_id=TEST_APPLICATION_BINARY_IMAGE_VARIABLE_NAME,
+                ),
+                AddGUIComponentOperation(
+                    system=system,
+                    operation_id='Add Image Display for binary image',
+                    component_id=TEST_APPLICATION_BINARY_IMAGE_DISPLAY_COMPONENT_ID,
+                    layout='binary_image_layout',
+                ),
                 LogVariableOperation(
                     system=system,
                     operation_id=TEST_APPLICATION_LOG_VARIABLE_OPERATION_ID,
                     variable_id=TEST_APPLICATION_VARIABLE_NAME,
                     store=True,
+                ),
+                AddVariableObserverOperation(
+                    system=system,
+                    operation_id='Add Variable Observer',
+                    variable_id=TEST_APPLICATION_VARIABLE_NAME,
+                    observer_id=TEST_APPLICATION_LOG_VARIABLE_OPERATION_ID,
+                ),
+                CreateSliderOperation(
+                    system=system,
+                    operation_id='Create Slider',
+                    component_id=SLIDER_COMPONENT_ID,
+                    max_value=255,
+                ),
+                AddGUIComponentOperation(
+                    system=system,
+                    operation_id='Add Slider',
+                    component_id=SLIDER_COMPONENT_ID,
+                    layout='button_layout',
                 ),
                 AddGUIComponentOperation(
                     system=system,
@@ -228,6 +281,12 @@ def main():
                     variable_id=TEST_APPLICATION_RESULT_IMAGE_VARIABLE_NAME,
                     observer_id=TEST_RESULT_IMAGE_DISPLAY_COMPONENT_ID,
                 ),
+                AddVariableObserverOperation(
+                    system=system,
+                    operation_id='Add Binary Image display observer',
+                    variable_id=TEST_APPLICATION_BINARY_IMAGE_VARIABLE_NAME,
+                    observer_id=TEST_APPLICATION_BINARY_IMAGE_DISPLAY_COMPONENT_ID,
+                ),
                 AddGUIComponentOperation(
                     system=system,
                     operation_id='Add Run Home Application Button',
@@ -258,6 +317,32 @@ def main():
                     operation_id='Convert Image to Gray',
                     source_variable_id=TEST_IMAGE_VARIABLE_NAME,
                     result_variable_id=TEST_APPLICATION_RESULT_IMAGE_VARIABLE_NAME,
+                ),
+                ConvertImageToBinaryOperation(
+                    system=system,
+                    operation_id=TEST_APPLICATION_CONVERT_IMAGE_TO_BINARY_OPERATION_ID,
+                    source_variable_id=TEST_RESULT_IMAGE_VARIABLE_NAME,
+                    result_variable_id=TEST_APPLICATION_BINARY_IMAGE_VARIABLE_NAME,
+                    threshold_variable_id=TEST_APPLICATION_VARIABLE_NAME,
+                    store=True,
+                ),
+                AddVariableObserverOperation(
+                    system,
+                    operation_id='Add Variable Observer',
+                    variable_id=TEST_APPLICATION_VARIABLE_NAME,
+                    observer_id=TEST_APPLICATION_CONVERT_IMAGE_TO_BINARY_OPERATION_ID,
+                ),
+                AddVariableObserverOperation(
+                    system,
+                    operation_id='Add observer for gray image',
+                    variable_id=TEST_APPLICATION_RESULT_IMAGE_VARIABLE_NAME,
+                    observer_id=TEST_APPLICATION_CONVERT_IMAGE_TO_BINARY_OPERATION_ID,
+                ),
+                AssignVariableWithUIComponentOperation(
+                    system=system,
+                    operation_id='Assign Slider Value to Variable',
+                    variable_id=TEST_APPLICATION_VARIABLE_NAME,
+                    component_id=SLIDER_COMPONENT_ID,
                 ),
             ]
         ),

@@ -12,3 +12,6 @@ from .RunApplicationOperation import RunApplicationOperation
 from .LoadImageOperation import LoadImageOperation
 from .CreateImageDisplayOperation import CreateImageDisplayOperation
 from .ConvertImageToGrayOperation import ConvertImageToGrayOperation
+from .CreateSliderOperation import CreateSliderOperation
+from .AssignVariableWithUIComponentOperation import AssignVariableWithUIComponentOperation
+from .ConvertImageToBinaryOperation import ConvertImageToBinaryOperation

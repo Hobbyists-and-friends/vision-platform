@@ -13,3 +13,6 @@ from .RunApplicationTest import RunApplicationTest
 from .LoadImageTest import LoadImageTest
 from .CreateImageDisplayTest import CreateImageDisplayTest
 from .ConvertImageToGrayTest import ConvertImageToGrayTest
+from .CreateSliderTest import CreateSliderTest
+from .AssignVariableWithUIComponentTest import AssignVariableWithUIComponentTest
+from .ConvertToBinaryImageTest import ConvertToBinaryImageTest

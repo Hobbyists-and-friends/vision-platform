@@ -1,5 +1,4 @@
 from src.interfaces import (
-    IOperation,
     ISystem,
     IPublisher,
 )

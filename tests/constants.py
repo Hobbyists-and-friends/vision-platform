@@ -1,6 +1,6 @@
 TEST_VARIABLE_NAME = 'test_variable'
-TEST_VARIABLE_VALUE = 3
-TEST_VARIABLE_SECOND_VALUE = 6
+TEST_VARIABLE_VALUE = 0
+TEST_VARIABLE_SECOND_VALUE = 3
 
 TEST_EMPTY_VARIABLE_NAME = 'test_empty_variable'
 
@@ -37,3 +37,13 @@ TEST_IMAGE_SOURCE_NAME = 'test_image_source_name'
 TEST_IMAGE_RESULT_NAME = 'test_image_result_name'
 
 TEST_CONVERT_IMAGE_TO_GRAY_OPERATION_ID = 'test_convert_image_to_gray_operation'
+TEST_CONVERT_IMAGE_TO_BINARY_OPREATEION_ID = 'test_convert_image_to_binary_operation'
+
+TEST_SLIDER_COMPONENT_ID = 'test_slider_component_id'
+
+TEST_CREATE_SLIDER_OPERATION_ID = 'test_create_slider_operation'
+
+TEST_ASSIGN_VARIABLE_WITH_UI_COMPONENT_OPERATION_ID = 'test_assign_variable_with_ui_component_operation'
+
+TEST_GRAY_IMAGE_VARIABLE_NAME = 'test_gray_image_variable_name'
+TEST_BINARY_IMAGE_VARIABLE_NAME = 'test_binary_image_variable_name'
