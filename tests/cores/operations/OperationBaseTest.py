@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import (
     Mock,
 )
+from operations.system_call import add_gui_component
 
 from src.interfaces import (
     IOperation,
@@ -13,7 +14,6 @@ from src.cores import (
     System,
 )
 from src.operations import (
-    AddGUIComponentOperation,
     CreateVariableOperation,
 )
 from tests.constants import (
@@ -39,11 +39,10 @@ class OperationBaseTest(unittest.TestCase):
         create_mocked_system(self.system, self.ui_component, self.application)
 
     def test_not_store_operation(self):
-        self.operation = AddGUIComponentOperation(
-            self.system,
-            TEST_OPERATION_NAME,
-            TEST_UI_COMPONENT_NAME,
-            TEST_COMPONENT_LAYOUT,
+        self.operation = add_gui_component(
+            operation_id=TEST_OPERATION_NAME,
+            component_id=TEST_UI_COMPONENT_NAME,
+            layout=TEST_COMPONENT_LAYOUT,
             store=False
         )
         self.operation.run()
@@ -51,11 +50,10 @@ class OperationBaseTest(unittest.TestCase):
         self.assertTrue(TEST_OPERATION_NAME not in self.system.operations)
 
     def test_store_operation(self):
-        self.operation = AddGUIComponentOperation(
-            self.system,
-            TEST_OPERATION_NAME,
-            TEST_UI_COMPONENT_NAME,
-            TEST_COMPONENT_LAYOUT,
+        self.operation = add_gui_component(
+            operation_id=TEST_OPERATION_NAME,
+            component_id=TEST_UI_COMPONENT_NAME,
+            layout=TEST_COMPONENT_LAYOUT,
             store=True
         )
 
@@ -65,9 +63,8 @@ class OperationBaseTest(unittest.TestCase):
 
     def test_run_operation_but_not_be_run(self):
         self.operation = CreateVariableOperation(
-            self.system,
             operation_id=TEST_CREATE_VARIABLE_OPERATION_NAME,
-            variable_name=TEST_VARIABLE_NAME,
+            variable_id=TEST_VARIABLE_NAME,
             variable_value=TEST_VARIABLE_VALUE,
             run_at_first=False,
         )

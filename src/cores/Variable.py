@@ -13,7 +13,6 @@ from src.interfaces import (
     ISystem,
 )
 
-
 class Variable(PublisherBase, IVariable):
     """
     The Variable class is a data structure that stores a variable in this platform. 
@@ -36,9 +35,8 @@ class Variable(PublisherBase, IVariable):
             The id which is used to identify this variable. Cannot have the same id with other variables.
     """
 
-    def __init__(self, system: 'ISystem', **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.system = system
         self.__handle_missing()
         self.__add_type()
 

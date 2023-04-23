@@ -1,4 +1,3 @@
-from .GridComponent import GridComponent
-from .IconButton import IconButton
-from .ImageDisplay import ImageDisplay
-from .Slider import Slider
+from .pyqt_button import PyQtButton
+from .pyqt_slider import PyQtSlider
+from .pyqt_combo_box import PyQtComboBox

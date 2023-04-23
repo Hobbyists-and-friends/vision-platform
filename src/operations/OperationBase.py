@@ -1,14 +1,15 @@
 from abc import (
     abstractmethod,
 )
-from src.interfaces import (
-    IOperation,
-    IPublisher,
-    ISystem,
+from src.interfaces.operation import (
+    ITriggerable,
+)
+from src.cores import (
+    System,
 )
 
 
-class OperationBase(IOperation):
+class OperationBase(ITriggerable):
     """
     The OperationBase class is the base class for all operations in this platform which will
     be used to execute the operations in the system.
@@ -24,32 +25,11 @@ class OperationBase(IOperation):
             The flag to store this operation to the system, default is False.
     """
 
-    def __init__(self,
-                 system: 'ISystem',
-                 operation_id: str,
-                 store: bool = False,
-                 run_at_first: bool = True):
-        self.system = system
-        self.__operation_id = operation_id
-        self.__store = store
-        self.__run_at_first = run_at_first
+    def __init__(self, trigger_id: str):
+        self.__trigger_id = trigger_id
 
-    @property
-    def operation_id(self) -> str:
-        return self.__operation_id
+    def set_trigger(self, trigger_id: str) -> None:
+        self.__trigger_id = trigger_id
 
-    def run(self) -> None:
-        """
-        The run method will be called to execute this operation. 
-        """
-        if self.__store:
-            self.system.operations[self.operation_id] = self
-        if self.__run_at_first:
-            self._run()
-
-    @abstractmethod
-    def _run(self) -> None:
-        """
-        The abstract method _run will be called to execute this operation. 
-        """
-        raise NotImplementedError
+    def is_triggered(self) -> bool:
+        return True

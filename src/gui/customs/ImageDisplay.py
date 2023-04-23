@@ -26,12 +26,10 @@ class ImageDisplay(ComponentBase, QLabel):
     """
 
     def __init__(self,
-                 system: 'ISystem',
-                 component_id: str,
-                 variable_id: str):
+                 component_id: str):
         QLabel.__init__(self)
-        ComponentBase.__init__(self, system, component_id)
-        self.__variable_id = variable_id
+        ComponentBase.__init__(self, None, component_id)
+        self.__variable_id = None
         self.setScaledContents(True)
         self.setAlignment(Qt.AlignCenter | Qt.AlignCenter)
 

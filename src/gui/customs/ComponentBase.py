@@ -2,9 +2,11 @@ from src.interfaces import (
     ISystem,
     IOperation,
     IPublisher,
-    PyQtMetaClass,
     IObserver,
     IGUIComponent,
+)
+from src.interfaces.ui import (
+    PyQtMetaClass,
 )
 from src.utils import (
     PublisherBase,

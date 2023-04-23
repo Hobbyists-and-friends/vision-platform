@@ -1,1 +1,1 @@
-from .ApplicationGUI import ApplicationGUI
+from .PyQtWindow import PyQtWindow

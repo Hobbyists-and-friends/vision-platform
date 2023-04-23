@@ -1,2 +1,3 @@
-from .Variable import Variable
-from .System import System
+from .variable import Variable
+from .system import System
+from .system_controller import SystemController

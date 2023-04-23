@@ -1,5 +1,6 @@
 from unittest.mock import PropertyMock
 import cv2 as cv
+import os
 
 from src.constants import (
     VALUE_KEY,
@@ -11,6 +12,7 @@ from tests.constants import (
     TEST_OPERATION_NAME,
     TEST_UI_COMPONENT_NAME,
     TEST_IMAGE_PATH,
+    TEST_LAYOUT_PATH,
 )
 
 
@@ -69,3 +71,12 @@ def load_test_image():
     image = cv.imread(TEST_IMAGE_PATH)
     image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
     return image
+
+
+def create_test_ui_path():
+    with open(TEST_LAYOUT_PATH, "w") as file:
+        file.write("")
+
+
+def delete_test_ui_path():
+    os.remove(TEST_LAYOUT_PATH)

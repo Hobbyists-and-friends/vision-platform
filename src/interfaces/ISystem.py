@@ -12,6 +12,9 @@ from src.interfaces import (
     IGUIComponent,
     IObserver,
 )
+from src.interfaces.operation import (
+    ITrigger,
+)
 
 
 class ISystem(IPublisher):
@@ -61,4 +64,8 @@ class ISystem(IPublisher):
 
     @abstractmethod
     def add_application(self, application: 'IApplicationGUI') -> None:
+        raise NotImplementedError
+
+    @abstractproperty
+    def triggers(self) -> Dict[str, 'ITrigger']:
         raise NotImplementedError

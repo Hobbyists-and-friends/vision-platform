@@ -15,6 +15,7 @@ from PyQt5.QtCore import (
 from PyQt5.QtTest import (
     QTest,
 )
+from operations.system_call import ChangeVariableValueOperation
 
 from src.cores import (
     System,
@@ -27,10 +28,9 @@ from src.constants import (
 )
 from src.operations import (
     CreateVariableOperation,
-    ChangeVariableValueOperation,
 )
-from src.gui.customs import (
-    Slider,
+from gui.customs import (
+    PyQtSlider,
 )
 
 from tests.constants import (
@@ -59,7 +59,7 @@ class SliderTest(unittest.TestCase):
 
     def setUp(self):
         self.system = System()
-        self.slider = Slider(
+        self.slider = PyQtSlider(
             system=self.system,
             component_id=TEST_SLIDER_COMPONENT_ID,
             update_tool=ChangeVariableValueOperation,

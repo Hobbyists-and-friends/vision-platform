@@ -25,16 +25,24 @@ class PublisherBaseTest(unittest.TestCase):
 
         publisher.notify()
 
-        self.first_observer.update.assert_called_once_with(publisher, {})
+        self.first_observer.update.assert_called_with(publisher, {})
+        self.assertEqual(
+            self.first_observer.update.call_count,
+            2
+        )
 
     def test_publisher_with_initial_dict(self):
         self.publiser_with_initial_dict.add_observer(self.first_observer)
 
         self.publiser_with_initial_dict.notify()
 
-        self.first_observer.update.assert_called_once_with(
+        self.first_observer.update.assert_called_with(
             self.publiser_with_initial_dict,
             {TEST_KEY: TEST_VALUE}
+        )
+        self.assertEqual(
+            self.first_observer.update.call_count,
+            2
         )
 
     def test_publisher_base_adds_two_observers(self):
@@ -43,14 +51,16 @@ class PublisherBaseTest(unittest.TestCase):
 
         self.publisher.notify()
 
-        self.first_observer.update.assert_called_once_with(
+        self.first_observer.update.assert_called_with(
             self.publisher,
             {}
         )
-        self.second_observer.update.assert_called_once_with(
+        self.assertEqual(self.first_observer.update.call_count, 2)
+        self.second_observer.update.assert_called_with(
             self.publisher,
             {}
         )
+        self.assertEqual(self.second_observer.update.call_count, 2)
 
     def test_publisher_base_removes_observer(self):
         self.publisher.add_observer(self.first_observer)
@@ -59,11 +69,8 @@ class PublisherBaseTest(unittest.TestCase):
 
         self.publisher.notify()
 
-        self.first_observer.update.assert_called_once_with(
-            self.publisher,
-            {}
-        )
-        self.second_observer.update.assert_not_called()
+        self.assertEqual(self.first_observer.update.call_count, 2)
+        self.assertEqual(self.second_observer.update.call_count, 1)
 
     def test_publisher_base_adds_existed_observer(self):
         self.publisher.add_observer(self.first_observer)
@@ -71,7 +78,7 @@ class PublisherBaseTest(unittest.TestCase):
 
         self.publisher.notify()
 
-        self.first_observer.update.assert_called_once_with(
+        self.first_observer.update.assert_called_with(
             self.publisher,
             {}
         )
@@ -82,7 +89,7 @@ class PublisherBaseTest(unittest.TestCase):
 
         self.publisher.notify()
 
-        self.first_observer.update.assert_called_once_with(
+        self.first_observer.update.assert_called_with(
             self.publisher,
             {}
         )

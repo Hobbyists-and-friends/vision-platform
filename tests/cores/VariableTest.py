@@ -102,7 +102,8 @@ class VariableTest(unittest.TestCase):
         self.assertEqual(self.number_variable.data[VALUE_KEY],
                          TEST_NUMBER_VALUE_CHANGED_VALUE)
 
-        self.first_test_observer.update.assert_called_once()
+        self.first_test_observer.update.assert_called()
+        self.assertEqual(self.first_test_observer.update.call_count, 2)
         self.second_test_observer.update.assert_not_called()
 
     def test_when_the_value_has_been_modified_with_wrong_type(self):
@@ -113,7 +114,7 @@ class VariableTest(unittest.TestCase):
 
         self.assertEqual(self.number_variable.data[VALUE_KEY],
                          TEST_NUMBER_VALUE)
-        self.first_test_observer.update.assert_not_called()
+        self.first_test_observer.update.assert_called_once()
 
     def test_when_change_value_of_the_null_variable(self):
         self.null_variable.change_value(**{

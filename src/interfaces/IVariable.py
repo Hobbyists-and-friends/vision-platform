@@ -1,6 +1,8 @@
 from abc import abstractmethod, abstractproperty
 
-from src.interfaces import IPublisher
+from src.interfaces import (
+    IPublisher,
+)
 from src.constants import (
     VariableType,
 )

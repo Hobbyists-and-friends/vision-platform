@@ -10,6 +10,9 @@ from src.interfaces import (
     IApplicationGUI,
     IObserver,
 )
+from src.interfaces.operation import (
+    ITrigger,
+)
 from src.utils import PublisherBase
 from src.cores import Variable
 from src.constants import (
@@ -45,6 +48,7 @@ class System(PublisherBase, ISystem):
         application: IApplication
             The application which is running in this platform.
     """
+    system = None
 
     def __init__(self, **kwargs):
         PublisherBase.__init__(self, **kwargs)
@@ -54,12 +58,14 @@ class System(PublisherBase, ISystem):
                 VALUE_KEY: EMPTY_STRING,
             },
         )
+        System.system = self
         self.__ui_components = {}
         self.__variables = {}
         self.application = None
         # self.__error = Variable()
         self.__operations = {}
         self.__applications = {}
+        self.__trigger = {}
 
     @property
     def variables(self) -> dict:
@@ -106,3 +112,7 @@ class System(PublisherBase, ISystem):
 
     def add_application(self, application: 'IApplicationGUI') -> None:
         self.application = application
+
+    @property
+    def triggers(self) -> Dict[str, ITrigger]:
+        return self.__trigger
