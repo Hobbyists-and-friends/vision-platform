@@ -37,10 +37,16 @@ class CreateGUIComponentOperation(SystemCallBase):
             elif self.__component_type == ComponentType.SLIDER.value:
                 component = PyQtSlider(
                     component_id=self.__component_id,
+                    **self.__kwargs,
                 )
             elif self.__component_type == ComponentType.COMBO_BOX.value:
                 component = PyQtComboBox(
+                    component_id=self.__component_id,
                     **self.__kwargs
+                )
+            elif self.__component_type == ComponentType.IMAGE_DISPLAY.value:
+                component = PyQtImageDisplay(
+                    component_id=self.__component_id,
                 )
 
             System.system.ui_components[self.__component_id] = component

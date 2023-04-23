@@ -27,13 +27,16 @@ from tests.constants import (
 
 
 class TestObserverOp(ObserverOpBase):
-    def __init__(self, operation_id: str, data: int = 2) -> None:
-        super().__init__(operation_id=operation_id, trigger_id=None)
+    def __init__(self, data: int = 2) -> None:
+        super().__init__(trigger_id=None)
         self.data = data
 
     def _update_impl(self, publisher: 'IPublisher', data: dict) -> None:
         print("Here")
         self.data = data[VALUE_KEY]
+
+    def _verify_variable(self, param_key: str, variable_id: str) -> bool:
+        pass
 
 
 class ObserverOpBaseTest(unittest.TestCase):

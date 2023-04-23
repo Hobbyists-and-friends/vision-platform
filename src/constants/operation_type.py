@@ -20,3 +20,7 @@ class OperationType(Enum):
     SET_DISPATCH = "Set Dispatch"
     ADD_VARIABLE_OBSERVER = "Add Variable Observer"
     ADD_GUI_COMPONENT = "Add GUI Component Observer"
+
+    # Image operations
+    CONVERT_IMAGE_TO_GRAY = "Convert Image to Gray"
+    CONVERT_IMAGE_TO_BINARY = "Convert Image to Binary"

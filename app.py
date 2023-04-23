@@ -92,6 +92,7 @@ def main():
         CreateGUIComponentOperation(
             component_id="Slider",
             component_type=ComponentType.SLIDER.value,
+            max=255,
         ),
         AddGUIComponentOperation(
             component_id="Slider",
@@ -103,6 +104,7 @@ def main():
         ),
         CreateVariableOperation(
             variable_id="ComboBox Variable",
+            variable_value="Testing"
         ),
         CreateOperationOperation(
             operation_id="Log ComboBox Variable",
@@ -127,6 +129,62 @@ def main():
         SetComponentRelatedVariableOperation(
             component_id="ComboBox",
             variable_id="ComboBox Variable",
+        ),
+        CreateVariableOperation(
+            variable_id="Image Variable",
+        ),
+        CreateVariableOperation(
+            variable_id="Image Path",
+            variable_value="src/assets/images/test_image.jpg",
+        ),
+        LoadImageOperation(
+            variable_id="Image Variable",
+            image_path_variable_id="Image Path",
+        ),
+        CreateVariableOperation(
+            variable_id="Gray Image Variable"
+        ),
+        CreateVariableOperation(
+            variable_id="Result Image Variable",
+        ),
+        CreateGUIComponentOperation(
+            component_id="Image Display",
+            component_type=ComponentType.IMAGE_DISPLAY.value,
+        ),
+        AddGUIComponentOperation(
+            component_id="Image Display",
+            layout='test_layout',
+        ),
+        SetComponentRelatedVariableOperation(
+            component_id="Image Display",
+            variable_id="Result Image Variable",
+        ),
+        CreateOperationOperation(
+            operation_id="Convert Image To Gray Operation",
+            operation_type=OperationType.CONVERT_IMAGE_TO_GRAY.value,
+        ),
+        SetOperationRelatedVariableOperation(
+            operation_id="Convert Image To Gray Operation",
+            src_params_dict={
+                SRC_VARIABLE: "Image Variable",
+            },
+            res_params_dict={
+                RESULT_VARIABLE: "Gray Image Variable",
+            },
+        ),
+        CreateOperationOperation(
+            operation_id="Convert Image To Binary Operation",
+            operation_type=OperationType.CONVERT_IMAGE_TO_BINARY.value,
+        ),
+        SetOperationRelatedVariableOperation(
+            operation_id="Convert Image To Binary Operation",
+            src_params_dict={
+                SRC_VARIABLE: "Gray Image Variable",
+                THRESHOLD_VARIABLE: HOME_APPLICATION_VARIABLE_NAME,
+            },
+            res_params_dict={
+                RESULT_VARIABLE: "Result Image Variable",
+            },
         ),
     ]
     system.add_application(window)

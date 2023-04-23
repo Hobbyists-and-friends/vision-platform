@@ -8,9 +8,7 @@ from .system_call_base import SystemCallBase
 from .raise_error_op import RaiseErrorOperation
 from .print_value_op import PrintValueOperation
 
-from src.operations.observer_op import (
-    LogVariable,
-)
+from src.operations.observer_op import *
 
 
 class CreateOperationOperation(SystemCallBase):
@@ -43,3 +41,11 @@ class CreateOperationOperation(SystemCallBase):
             )
         elif self.__operation_type == OperationType.LOG_VARIABLE.value:
             System.system.operations[self.__operation_id] = LogVariable()
+        elif self.__operation_type == OperationType.CONVERT_IMAGE_TO_GRAY.value:
+            System.system.operations[self.__operation_id] = ConvertImageToGray(
+                operation_id=self.__operation_id,
+            )
+        elif self.__operation_type == OperationType.CONVERT_IMAGE_TO_BINARY.value:
+            System.system.operations[self.__operation_id] = ConvertImageToBinary(
+                operation_id=self.__operation_id
+            )

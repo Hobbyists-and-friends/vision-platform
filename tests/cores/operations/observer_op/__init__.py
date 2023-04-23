@@ -1,2 +1,4 @@
 from .LogVariableTest import LogVariableTest
 from .ObserverOpBaseTest import ObserverOpBaseTest
+from .ConvertImageToGrayTest import ConvertImageToGrayTest
+from .ConvertImageToBinaryTest import ConvertImageToBinaryTest

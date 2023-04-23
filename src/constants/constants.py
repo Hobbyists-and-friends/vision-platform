@@ -16,3 +16,7 @@ DEFAULT_COLUMN = 5
 DEFAULT_ROW = 5
 
 ICON_BUTTON_DEFAULT_OPERATION = 'NoneOperation'
+
+SRC_VARIABLE = 'src_variable'
+RESULT_VARIABLE = 'result_variable'
+THRESHOLD_VARIABLE = 'threshold_variable'

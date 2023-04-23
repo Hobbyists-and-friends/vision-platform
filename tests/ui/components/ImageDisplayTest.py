@@ -15,8 +15,8 @@ from src.operations import (
     ConvertImageToGrayOperation,
     AddVariableObserverOperation,
 )
-from src.gui.customs import (
-    ImageDisplay,
+from gui.customs import (
+    pyqt_image_display,
 )
 from tests.constants import (
     TEST_IMAGE_DISPLAY_COMPONENT_ID,
@@ -34,7 +34,7 @@ from tests.tools import (
 class ImageDisplayTest(unittest.TestCase):
     def setUp(self):
         self.system = System()
-        self.image_display = ImageDisplay(
+        self.image_display = pyqt_image_display(
             component_id=TEST_IMAGE_DISPLAY_COMPONENT_ID,
         )
 
