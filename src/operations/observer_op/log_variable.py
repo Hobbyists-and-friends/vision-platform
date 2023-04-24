@@ -26,3 +26,7 @@ class LogVariable(ObserverOpBase):
 
     def _verify_variable(self, param_key: str, variable_id: str) -> bool:
         pass
+
+    @property
+    def default_params(self) -> dict:
+        return {}

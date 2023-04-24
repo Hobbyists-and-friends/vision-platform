@@ -1,5 +1,8 @@
 from PyQt5.QtWidgets import (
     QComboBox,
+    QVBoxLayout,
+    QLabel,
+    QWidget,
 )
 
 from src.interfaces import (
@@ -14,23 +17,35 @@ from src.operations.system_call import *
 from .pyqt_component_base import PyQtComponentBase
 
 
-class PyQtComboBox(PyQtComponentBase, QComboBox,
+class PyQtComboBox(PyQtComponentBase,
                    IVariableRelatedComponent, metaclass=PyQtMetaClass):
     def __init__(self,
                  component_id: str,
-                 values: list = []) -> None:
-        QComboBox.__init__(self)
+                 values: list,
+                 alias: list = [],
+                 **kwargs) -> None:
+        PyQtComponentBase.__init__(self)
+        self.__combo_box = QComboBox()
+        self._add_widget(self.__combo_box)
+
         self.__variable_id = None
         self.__values = values
         self.__component_id = component_id
+        self.__kwargs = kwargs
+
+        if len(alias) == 0:
+            self.__alias = values
+        else:
+            self.__alias = alias
 
     def init(self) -> None:
-        for value in self.__values:
-            self.addItem(value)
+        for value in self.__alias:
+            self.__combo_box.addItem(value)
 
-        self.currentIndexChanged.connect(self._update_value)
+        self.__combo_box.currentIndexChanged.connect(self._update_value)
 
-        self.setCurrentIndex(0)
+        self.__combo_box.setCurrentIndex(0)
+        self._set_label_text(f"{self.__kwargs['label']}")
 
     def _update_value(self, index: int) -> None:
         ChangeVariableValueOperation(
@@ -42,7 +57,7 @@ class PyQtComboBox(PyQtComponentBase, QComboBox,
         value = data[VALUE_KEY]
         for i in range(len(self.__values)):
             if self.__values[i] == value:
-                self.setCurrentIndex(i)
+                self.__combo_box.setCurrentIndex(i)
                 break
 
     def set_variable(self, variable_id: str) -> None:

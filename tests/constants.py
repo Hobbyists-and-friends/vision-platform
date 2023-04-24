@@ -53,6 +53,7 @@ TEST_CREATE_SLIDER_OPERATION_ID = 'test_create_slider_operation'
 TEST_ASSIGN_VARIABLE_WITH_UI_COMPONENT_OPERATION_ID = 'test_assign_variable_with_ui_component_operation'
 
 TEST_GRAY_IMAGE_VARIABLE_NAME = 'test_gray_image_variable_name'
+TEST_BINARY_IMAGE_TYPE = 'test_binary_image_type'
 TEST_BINARY_IMAGE_VARIABLE_NAME = 'test_binary_image_variable_name'
 
 TEST_LAYOUT_NAME = 'test_layout_name'

@@ -12,22 +12,25 @@ from src.interfaces.ui import (
 from .pyqt_component_base import PyQtComponentBase
 
 
-class PyQtButton(PyQtComponentBase, QPushButton,
+class PyQtButton(PyQtComponentBase,
                  IOperationDispatcherComponent, metaclass=PyQtMetaClass):
     def __init__(self,
                  text: str = "Button",
                  *args, **kwargs):
-        QPushButton.__init__(self)
+        PyQtComponentBase.__init__(self)
+
+        self.button = QPushButton()
+        self._add_widget(self.button)
 
         self.__variable_id = None
         self.__text = text
         self.__operation_id = None
-        self.clicked.connect(self.dispatch)
+        self.button.clicked.connect(self.dispatch)
 
     def init(self) -> None:
         """
         """
-        self.setText(self.__text)
+        self.button.setText(self.__text)
 
     def dispatch(self) -> None:
         """

@@ -32,3 +32,7 @@ class ConvertImageToGray(ObserverOpBase):
     def __is_image(self, variable_id: str) -> bool:
         return System.system.variables[variable_id].type == VariableType.IMAGE or \
             System.system.variables[variable_id].type == VariableType.NULL
+
+    @property
+    def default_params(self) -> dict:
+        return {}

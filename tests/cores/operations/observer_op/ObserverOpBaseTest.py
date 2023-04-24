@@ -38,6 +38,10 @@ class TestObserverOp(ObserverOpBase):
     def _verify_variable(self, param_key: str, variable_id: str) -> bool:
         pass
 
+    @property
+    def default_params(self) -> dict:
+        return {}
+
 
 class ObserverOpBaseTest(unittest.TestCase):
     def setUp(self) -> None:

@@ -93,6 +93,8 @@ def main():
             component_id="Slider",
             component_type=ComponentType.SLIDER.value,
             max=255,
+            step=10,
+            label="Threshold Value"
         ),
         AddGUIComponentOperation(
             component_id="Slider",
@@ -104,7 +106,7 @@ def main():
         ),
         CreateVariableOperation(
             variable_id="ComboBox Variable",
-            variable_value="Testing"
+            variable_value=cv.THRESH_BINARY,
         ),
         CreateOperationOperation(
             operation_id="Log ComboBox Variable",
@@ -118,9 +120,18 @@ def main():
             component_id="ComboBox",
             component_type=ComponentType.COMBO_BOX.value,
             values=[
-                "Hello",
-                "Testing"
+                cv.THRESH_BINARY,
+                cv.THRESH_BINARY_INV,
+                cv.THRESH_TRUNC,
+                cv.THRESH_TOZERO,
             ],
+            alias=[
+                "THR_BINARY",
+                "THR_BINARY_INV",
+                "THR_TRUNC",
+                "THR_TOZERO",
+            ],
+            label="Threshold Type",
         ),
         AddGUIComponentOperation(
             component_id="ComboBox",
@@ -153,7 +164,7 @@ def main():
         ),
         AddGUIComponentOperation(
             component_id="Image Display",
-            layout='test_layout',
+            layout='image_layout',
         ),
         SetComponentRelatedVariableOperation(
             component_id="Image Display",
@@ -181,6 +192,7 @@ def main():
             src_params_dict={
                 SRC_VARIABLE: "Gray Image Variable",
                 THRESHOLD_VARIABLE: HOME_APPLICATION_VARIABLE_NAME,
+                TYPE_VARIABLE: "ComboBox Variable",
             },
             res_params_dict={
                 RESULT_VARIABLE: "Result Image Variable",

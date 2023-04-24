@@ -47,7 +47,7 @@ class SetDispatchOperationTest(unittest.TestCase):
 
         operation.run()
 
-        self.system.ui_components[TEST_UI_COMPONENT_NAME].click()
+        self.system.ui_components[TEST_UI_COMPONENT_NAME].button.click()
         self.system_call.run.assert_called_once()
 
     def test_set_invalid_operation_with_valid_component(self):

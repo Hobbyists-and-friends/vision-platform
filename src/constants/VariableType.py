@@ -14,6 +14,7 @@ class VariableType(Enum):
     OPERATION = 'operation'
     OPERATION_FLOW = 'operation_flow'
     APPLICATION = 'application'
+    LIST = 'list'
     NULL = 'null'
 
     def get_type_from_value(value: 'object') -> 'VariableType':
@@ -23,7 +24,7 @@ class VariableType(Enum):
             return VariableType.STRING
         elif isinstance(value, np.ndarray):
             return VariableType.IMAGE
-        elif isinstance(value, list) and isinstance(value[0], IOperation):
-            return VariableType.APPLICATION
+        elif isinstance(value, list):
+            return VariableType.LIST
         else:
             return VariableType.NULL

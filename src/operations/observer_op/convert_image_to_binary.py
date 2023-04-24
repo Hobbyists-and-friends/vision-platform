@@ -15,13 +15,12 @@ class ConvertImageToBinary(ObserverOpBase):
         super().__init__(operation_id, trigger_id)
 
     def _update_impl(self, publisher: 'IPublisher', data: dict) -> None:
-        src_image = System.system.variables[self._params[SRC_VARIABLE]
-                                            ].data[VALUE_KEY]
-        threshold = System.system.variables[self._params[THRESHOLD_VARIABLE]
-                                            ].data[VALUE_KEY]
+        src_image = self._get_params_value(SRC_VARIABLE)
+        threshold = self._get_params_value(THRESHOLD_VARIABLE)
+        type = self._get_params_value(TYPE_VARIABLE)
 
         ret, binary_image = cv2.threshold(
-            src_image, threshold, 255, cv2.THRESH_BINARY)
+            src_image, threshold, 255, type)
 
         ChangeVariableValueOperation(
             variable_id=self._params[RESULT_VARIABLE],
@@ -30,3 +29,11 @@ class ConvertImageToBinary(ObserverOpBase):
 
     def _verify_variable(self, param_key: str, variable_id: str) -> bool:
         return True
+
+    @property
+    def default_params(self) -> dict:
+        return {
+            SRC_VARIABLE: None,
+            THRESHOLD_VARIABLE: 127,
+            TYPE_VARIABLE: cv2.THRESH_BINARY_INV,
+        }

@@ -6,6 +6,8 @@ from abc import (
 from src.interfaces import (
     IPublisher,
 )
+from src.cores import System
+from src.constants import *
 from src.interfaces.operation import (
     IObserverOp,
 )
@@ -34,6 +36,12 @@ class ObserverOpBase(OperationBase, IObserverOp):
         if self._verify_variable(param_key, variable_id):
             self._params[param_key] = variable_id
             self._src_params[param_key] = variable_id
+
+            if param_key in self.default_params:
+                ChangeVariableValueOperation(
+                    variable_id=variable_id,
+                    new_value=self.default_params[param_key]
+                ).run()
         else:
             RaiseErrorOperation(
                 error_message=f"Variable {variable_id} is not valid for {param_key}"
@@ -53,3 +61,13 @@ class ObserverOpBase(OperationBase, IObserverOp):
                 variable_id=variable_id,
                 observer_id=self.__operation_id
             ).run()
+
+    @abstractproperty
+    def default_params(self) -> dict:
+        raise NotImplementedError
+
+    def _get_params_value(self, param_key: str) -> object:
+        if param_key in self._params:
+            return System.system.variables[self._params[param_key]].data[VALUE_KEY]
+        else:
+            return self.default_params[param_key]
