@@ -15,9 +15,10 @@ from .pyqt_component_base import PyQtComponentBase
 class PyQtButton(PyQtComponentBase,
                  IOperationDispatcherComponent, metaclass=PyQtMetaClass):
     def __init__(self,
+                 component_id: str,
                  text: str = "Button",
                  *args, **kwargs):
-        PyQtComponentBase.__init__(self)
+        PyQtComponentBase.__init__(self, component_id)
 
         self.button = QPushButton()
         self._add_widget(self.button)
@@ -49,3 +50,10 @@ class PyQtButton(PyQtComponentBase,
 
         """
         self.__operation_id = operation_id
+
+    def _verify_variable(self, param_key: str, variable_id: str) -> None:
+        return True
+
+    @property
+    def default_params(self) -> str:
+        return {}

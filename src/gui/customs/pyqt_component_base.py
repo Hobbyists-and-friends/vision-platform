@@ -12,11 +12,23 @@ from src.interfaces.ui import (
     IUIComponent,
     PyQtMetaClass,
 )
+from src.operations.system_call import *
+from src.utils.MultiObserverBase import MultiObserverBase
 
 
-class PyQtComponentBase(IUIComponent, QWidget, metaclass=PyQtMetaClass):
-    def __init__(self, horizontal=False) -> None:
-        super().__init__()
+class PyQtComponentBase(MultiObserverBase,
+                        IUIComponent,
+                        QWidget,
+                        metaclass=PyQtMetaClass):
+    def __init__(self, component_id: str, horizontal=False) -> None:
+        MultiObserverBase.__init__(
+            self,
+            observer_id=component_id,
+            observer_class=AddVariableObserverOperation,
+            change_value_class=ChangeVariableValueOperation,
+            raise_error_class=RaiseErrorOperation,
+        )
+        QWidget.__init__(self)
 
         self._layout = QVBoxLayout() if not horizontal else QHBoxLayout()
         self._label = QLabel()

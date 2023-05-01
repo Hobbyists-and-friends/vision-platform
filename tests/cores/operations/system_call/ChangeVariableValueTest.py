@@ -50,7 +50,7 @@ class ChangeVariableValueTest(unittest.TestCase):
         )
         self.assertEqual(
             self.test_observer.update.call_count,
-            2,
+            CALL_OBSERVER_COUNT,
         )
 
     def test_change_value_of_non_existed_operation(self):
@@ -61,5 +61,7 @@ class ChangeVariableValueTest(unittest.TestCase):
 
         operation.run()
 
-        self.assertEqual(self.test_observer.update.call_count, 1)
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertEqual(self.test_observer.update.call_count,
+                         NOT_CALL_OBSERVER_COUNT)
+        self.assertEqual(self.error_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)

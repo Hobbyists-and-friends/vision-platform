@@ -44,7 +44,23 @@ class AddVariableObserverTest(unittest.TestCase):
             new_value=TEST_VARIABLE_SECOND_VALUE,
         ).run()
 
-        self.assertEqual(self.observer.update.call_count, 2)
+        self.assertEqual(self.observer.update.call_count,
+                         CALL_OBSERVER_COUNT + 1)
+
+    def test_add_observer_without_initial_update(self):
+        AddVariableObserverOperation(
+            variable_id=TEST_VARIABLE_NAME,
+            observer_id=TEST_OPERATION_NAME,
+            update=False,
+        ).run()
+
+        ChangeVariableValueOperation(
+            variable_id=TEST_VARIABLE_NAME,
+            new_value=TEST_VARIABLE_SECOND_VALUE,
+        ).run()
+
+        self.assertEqual(self.observer.update.call_count,
+                         CALL_OBSERVER_COUNT)
 
     def test_add_ui_observer(self):
         AddVariableObserverOperation(
@@ -57,4 +73,16 @@ class AddVariableObserverTest(unittest.TestCase):
             new_value=TEST_VARIABLE_SECOND_VALUE,
         ).run()
 
-        self.assertEqual(self.ui_component.update.call_count, 2)
+        self.assertEqual(self.ui_component.update.call_count,
+                         CALL_OBSERVER_COUNT + 1)
+
+    def test_add_operation_for_non_existed_variable(self):
+        AddVariableObserverOperation(
+            variable_id=TEST_NON_EXISTED_VARIABLE_NAME,
+            observer_id=TEST_UI_COMPONENT_NAME,
+        ).run()
+
+        self.assertEqual(
+            self.error_observer.update.call_count,
+            CALL_OBSERVER_COUNT,
+        )

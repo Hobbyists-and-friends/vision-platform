@@ -10,6 +10,7 @@ from PyQt5.QtGui import (
 )
 
 from src.cores import System
+from src.constants import *
 from src.interfaces import (
     ISystem,
     IPublisher,
@@ -35,7 +36,7 @@ class PyQtImageDisplay(PyQtComponentBase,
 
     def __init__(self,
                  component_id: str):
-        PyQtComponentBase.__init__(self)
+        PyQtComponentBase.__init__(self, component_id)
 
         self.__img_label = QLabel()
         self._add_widget(self.__img_label)
@@ -50,9 +51,9 @@ class PyQtImageDisplay(PyQtComponentBase,
         return f'<ImageDisplay name={self.__component_id}/>'
 
     def update(self, publisher: 'IPublisher', data: dict) -> None:
-        if data[VALUE_KEY] is not None:
-            img_data = data[VALUE_KEY]
+        img_data = System.system.variables[self._params[SRC_VARIABLE]].data[VALUE_KEY]
 
+        if img_data is not None:
             if len(img_data.shape) == 2:
                 format = QImage.Format_Grayscale8
             else:
@@ -64,11 +65,12 @@ class PyQtImageDisplay(PyQtComponentBase,
             self.__img_label.setPixmap(pixmap.scaled(
                 self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
 
-    def set_variable(self, variable_id: str) -> None:
-        AddVariableObserverOperation(
-            variable_id=variable_id,
-            observer_id=self.__component_id,
-        ).run()
-
     def on_update(self) -> None:
         pass
+
+    def _verify_variable(self, param_key: str, variable_id: str) -> None:
+        return True
+
+    @property
+    def default_params(self) -> dict:
+        return {}

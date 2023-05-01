@@ -3,6 +3,7 @@ from unittest.mock import Mock
 
 from src.interfaces import IObserver
 from src.utils import PublisherBase
+from tests.constants import *
 
 
 TEST_KEY = 'key'
@@ -28,7 +29,7 @@ class PublisherBaseTest(unittest.TestCase):
         self.first_observer.update.assert_called_with(publisher, {})
         self.assertEqual(
             self.first_observer.update.call_count,
-            2
+            CALL_OBSERVER_COUNT
         )
 
     def test_publisher_with_initial_dict(self):
@@ -42,7 +43,7 @@ class PublisherBaseTest(unittest.TestCase):
         )
         self.assertEqual(
             self.first_observer.update.call_count,
-            2
+            CALL_OBSERVER_COUNT,
         )
 
     def test_publisher_base_adds_two_observers(self):
@@ -55,12 +56,14 @@ class PublisherBaseTest(unittest.TestCase):
             self.publisher,
             {}
         )
-        self.assertEqual(self.first_observer.update.call_count, 2)
+        self.assertEqual(self.first_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)
         self.second_observer.update.assert_called_with(
             self.publisher,
             {}
         )
-        self.assertEqual(self.second_observer.update.call_count, 2)
+        self.assertEqual(
+            self.second_observer.update.call_count, CALL_OBSERVER_COUNT)
 
     def test_publisher_base_removes_observer(self):
         self.publisher.add_observer(self.first_observer)
@@ -69,8 +72,10 @@ class PublisherBaseTest(unittest.TestCase):
 
         self.publisher.notify()
 
-        self.assertEqual(self.first_observer.update.call_count, 2)
-        self.assertEqual(self.second_observer.update.call_count, 1)
+        self.assertEqual(self.first_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)
+        self.assertEqual(self.second_observer.update.call_count,
+                         NOT_CALL_OBSERVER_COUNT)
 
     def test_publisher_base_adds_existed_observer(self):
         self.publisher.add_observer(self.first_observer)

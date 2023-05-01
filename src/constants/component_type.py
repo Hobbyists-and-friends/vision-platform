@@ -6,3 +6,4 @@ class ComponentType(Enum):
     SLIDER = "slider"
     COMBO_BOX = "combo_box"
     IMAGE_DISPLAY = "image_display"
+    BUTTON_LIST = "button_list"

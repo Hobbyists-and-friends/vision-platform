@@ -24,3 +24,6 @@ class OperationType(Enum):
     # Image operations
     CONVERT_IMAGE_TO_GRAY = "Convert Image to Gray"
     CONVERT_IMAGE_TO_BINARY = "Convert Image to Binary"
+
+    # Transform operations
+    TRANSFORM_VARIABLE_TO_VALUE = "Transform Variable to Value"

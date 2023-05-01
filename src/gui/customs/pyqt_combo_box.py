@@ -24,7 +24,7 @@ class PyQtComboBox(PyQtComponentBase,
                  values: list,
                  alias: list = [],
                  **kwargs) -> None:
-        PyQtComponentBase.__init__(self)
+        PyQtComponentBase.__init__(self, component_id)
         self.__combo_box = QComboBox()
         self._add_widget(self.__combo_box)
 
@@ -49,7 +49,7 @@ class PyQtComboBox(PyQtComponentBase,
 
     def _update_value(self, index: int) -> None:
         ChangeVariableValueOperation(
-            variable_id=self.__variable_id,
+            variable_id=self._params[SRC_VARIABLE],
             new_value=self.__values[index],
         ).run()
 
@@ -60,12 +60,12 @@ class PyQtComboBox(PyQtComponentBase,
                 self.__combo_box.setCurrentIndex(i)
                 break
 
-    def set_variable(self, variable_id: str) -> None:
-        self.__variable_id = variable_id
-        AddVariableObserverOperation(
-            variable_id=variable_id,
-            observer_id=self.__component_id,
-        ).run()
-
     def on_update(self) -> None:
         pass
+
+    def _verify_variable(self, param_key: str, variable_id: str) -> None:
+        return True
+
+    @property
+    def default_params(self) -> dict:
+        return {}

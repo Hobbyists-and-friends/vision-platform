@@ -102,7 +102,10 @@ def main():
         ),
         SetComponentRelatedVariableOperation(
             component_id="Slider",
-            variable_id=HOME_APPLICATION_VARIABLE_NAME,
+            src_params={
+                SRC_VARIABLE: HOME_APPLICATION_VARIABLE_NAME,
+            },
+            res_params={},
         ),
         CreateVariableOperation(
             variable_id="ComboBox Variable",
@@ -139,7 +142,10 @@ def main():
         ),
         SetComponentRelatedVariableOperation(
             component_id="ComboBox",
-            variable_id="ComboBox Variable",
+            src_params={
+                SRC_VARIABLE: "ComboBox Variable",
+            },
+            res_params={},
         ),
         CreateVariableOperation(
             variable_id="Image Variable",
@@ -158,18 +164,6 @@ def main():
         CreateVariableOperation(
             variable_id="Result Image Variable",
         ),
-        CreateGUIComponentOperation(
-            component_id="Image Display",
-            component_type=ComponentType.IMAGE_DISPLAY.value,
-        ),
-        AddGUIComponentOperation(
-            component_id="Image Display",
-            layout='image_layout',
-        ),
-        SetComponentRelatedVariableOperation(
-            component_id="Image Display",
-            variable_id="Result Image Variable",
-        ),
         CreateOperationOperation(
             operation_id="Convert Image To Gray Operation",
             operation_type=OperationType.CONVERT_IMAGE_TO_GRAY.value,
@@ -183,6 +177,9 @@ def main():
                 RESULT_VARIABLE: "Gray Image Variable",
             },
         ),
+        CreateVariableOperation(
+            variable_id="Binary Image Variable",
+        ),
         CreateOperationOperation(
             operation_id="Convert Image To Binary Operation",
             operation_type=OperationType.CONVERT_IMAGE_TO_BINARY.value,
@@ -195,8 +192,66 @@ def main():
                 TYPE_VARIABLE: "ComboBox Variable",
             },
             res_params_dict={
+                RESULT_VARIABLE: "Binary Image Variable",
+            },
+        ),
+        CreateVariableOperation(
+            variable_id="Button's Name List",
+            variable_value=[
+                "Gray Image Variable",
+                "Binary Image Variable",
+            ],
+        ),
+        CreateVariableOperation(
+            variable_id="Button List Result",
+        ),
+        CreateGUIComponentOperation(
+            component_id="Button List",
+            component_type=ComponentType.BUTTON_LIST.value,
+        ),
+        AddGUIComponentOperation(
+            component_id="Button List",
+            layout='test_layout',
+        ),
+        SetComponentRelatedVariableOperation(
+            component_id="Button List",
+            src_params={
+                SRC_VARIABLE: "Button's Name List",
+            },
+            res_params={
+                RESULT_VARIABLE: "Button List Result",
+            },
+        ),
+        CreateOperationOperation(
+            operation_id="Get Result Image Operation",
+            operation_type=OperationType.TRANSFORM_VARIABLE_TO_VALUE.value,
+        ),
+        SetOperationRelatedVariableOperation(
+            operation_id="Get Result Image Operation",
+            src_params_dict={
+                SRC_VARIABLE: "Button List Result",
+            },
+            res_params_dict={
                 RESULT_VARIABLE: "Result Image Variable",
             },
+        ),
+        CreateGUIComponentOperation(
+            component_id="Image Display",
+            component_type=ComponentType.IMAGE_DISPLAY.value,
+        ),
+        AddGUIComponentOperation(
+            component_id="Image Display",
+            layout='image_layout',
+        ),
+        SetComponentRelatedVariableOperation(
+            component_id="Image Display",
+            src_params={
+                SRC_VARIABLE: "Result Image Variable",
+                # SRC_VARIABLE: "Binary Image Variable",
+                # 'Binary': "Binary Image Variable",
+                # 'Gray': "Gray Image Variable",
+            },
+            res_params={},
         ),
     ]
     system.add_application(window)

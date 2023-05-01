@@ -50,4 +50,5 @@ class LoadLayoutTest(unittest.TestCase):
 
         self.application.load_layout.assert_not_called()
         self.error_observer.update.assert_called()
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertEqual(self.error_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)

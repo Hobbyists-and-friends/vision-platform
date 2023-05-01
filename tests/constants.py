@@ -1,4 +1,5 @@
 TEST_VARIABLE_NAME = 'test_variable'
+TEST_NONE_VARIABLE = 'test_non_variable'
 TEST_NON_EXISTED_VARIABLE_NAME = 'test_non_existed_variable'
 TEST_VARIABLE_VALUE = 0
 TEST_VARIABLE_SECOND_VALUE = 3
@@ -66,3 +67,7 @@ TEST_SMALL_VARIABLE_NAME = 'test_small_variable_name'
 TEST_BIG_VARIABLE_NAME = 'test_big_variable_name'
 
 TEST_ERROR_MESSAGE = 'test_error_message'
+
+
+NOT_CALL_OBSERVER_COUNT = 0
+CALL_OBSERVER_COUNT = 1

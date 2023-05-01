@@ -12,9 +12,7 @@ from src.cores import (
 from src.operations.system_call import (
     RaiseErrorOperation,
 )
-from tests.constants import (
-    TEST_ERROR_MESSAGE,
-)
+from tests.constants import *
 
 
 class RaiseErrorTest(unittest.TestCase):
@@ -30,4 +28,5 @@ class RaiseErrorTest(unittest.TestCase):
 
         operation.run()
 
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertEqual(self.error_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)

@@ -49,3 +49,7 @@ class CreateOperationOperation(SystemCallBase):
             System.system.operations[self.__operation_id] = ConvertImageToBinary(
                 operation_id=self.__operation_id
             )
+        elif self.__operation_type == OperationType.TRANSFORM_VARIABLE_TO_VALUE.value:
+            System.system.operations[self.__operation_id] = TransformVariableToValue(
+                operation_id=self.__operation_id,
+            )

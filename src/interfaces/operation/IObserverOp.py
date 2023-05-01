@@ -28,3 +28,7 @@ class IObserverOp(IObserver, ITriggerable):
     @abstractmethod
     def observer_all_src(self) -> None:
         raise NotImplementedError
+
+    @abstractproperty
+    def default_params(self) -> dict:
+        raise NotImplementedError

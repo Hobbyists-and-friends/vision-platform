@@ -52,7 +52,8 @@ class CreateOperationTest(unittest.TestCase):
             variable_id=TEST_VARIABLE_NAME,
         ).run()
 
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertEqual(self.error_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)
 
     def test_create_valid_operation_with_observer_operation(self):
         CreateOperationOperation(

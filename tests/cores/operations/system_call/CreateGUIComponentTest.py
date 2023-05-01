@@ -16,10 +16,7 @@ from src.constants import (
     ComponentType,
 )
 
-from tests.constants import (
-    TEST_UI_COMPONENT_NAME,
-    TEST_COMPONENT_LAYOUT,
-)
+from tests.constants import *
 
 
 class CreateGUIComponentTest(unittest.TestCase):
@@ -49,4 +46,5 @@ class CreateGUIComponentTest(unittest.TestCase):
 
         operation.run()
 
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertEqual(self.error_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)

@@ -47,6 +47,12 @@ class CreateGUIComponentOperation(SystemCallBase):
             elif self.__component_type == ComponentType.IMAGE_DISPLAY.value:
                 component = PyQtImageDisplay(
                     component_id=self.__component_id,
+                    **self.__kwargs,
+                )
+            elif self.__component_type == ComponentType.BUTTON_LIST.value:
+                component = PyQtButtonList(
+                    component_id=self.__component_id,
+                    **self.__kwargs,
                 )
 
             System.system.ui_components[self.__component_id] = component

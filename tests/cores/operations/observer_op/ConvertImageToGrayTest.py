@@ -62,4 +62,5 @@ class ConvertImageToGrayTest(unittest.TestCase):
             },
         ).run()
 
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertEqual(self.error_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)

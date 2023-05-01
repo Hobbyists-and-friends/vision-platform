@@ -12,7 +12,7 @@ class PublisherBase(IPublisher):
     def add_observer(self, observer: 'IObserver') -> None:
         if observer not in self.__observers:
             self.__observers.append(observer)
-            observer.update(self, self._dict)
+            # observer.update(self, self._dict)
 
     def remove_observer(self, observer: 'IObserver') -> None:
         if observer in self.__observers:

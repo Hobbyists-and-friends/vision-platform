@@ -48,7 +48,8 @@ class SetDispatchOperationTest(unittest.TestCase):
         operation.run()
 
         self.system.ui_components[TEST_UI_COMPONENT_NAME].button.click()
-        self.system_call.run.assert_called_once()
+        self.assertEqual(self.system_call.run.call_count,
+                         CALL_OBSERVER_COUNT)
 
     def test_set_invalid_operation_with_valid_component(self):
         operation = SetDispatchOperation(
@@ -57,7 +58,8 @@ class SetDispatchOperationTest(unittest.TestCase):
         )
 
         operation.run()
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertEqual(self.error_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)
 
     @unittest.skip('Not implemented yet.')
     def test_set_valid_operation_with_invalid_component(self):
@@ -68,7 +70,8 @@ class SetDispatchOperationTest(unittest.TestCase):
 
         operation.run()
 
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertEqual(self.error_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)
 
     def test_set_non_existed_operation(self):
         operation = SetDispatchOperation(
@@ -78,7 +81,8 @@ class SetDispatchOperationTest(unittest.TestCase):
 
         operation.run()
 
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertEqual(self.error_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)
 
     def test_set_operation_with_non_existed_component(self):
         operation = SetDispatchOperation(
@@ -88,4 +92,5 @@ class SetDispatchOperationTest(unittest.TestCase):
 
         operation.run()
 
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertEqual(self.error_observer.update.call_count,
+                         CALL_OBSERVER_COUNT)

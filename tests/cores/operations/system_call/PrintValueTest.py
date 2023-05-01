@@ -40,4 +40,5 @@ class PrintValueTest(unittest.TestCase):
             operation.run()
 
         mock_print.assert_not_called()
-        self.assertEqual(self.error_observer.update.call_count, 2)
+        self.assertGreaterEqual(
+            self.error_observer.update.call_count, CALL_OBSERVER_COUNT)

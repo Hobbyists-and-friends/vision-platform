@@ -35,7 +35,7 @@ class PyQtSlider(PyQtComponentBase,
                  step: int = 1,
                  **kwargs):
 
-        PyQtComponentBase.__init__(self)
+        PyQtComponentBase.__init__(self, component_id)
 
         self.__slider = QSlider(Qt.Orientation.Horizontal)
         self._add_widget(self.__slider)
@@ -58,7 +58,7 @@ class PyQtSlider(PyQtComponentBase,
 
     def _update_value(self, value: float) -> None:
         ChangeVariableValueOperation(
-            variable_id=self.__variable_id,
+            variable_id=self._params[SRC_VARIABLE],
             new_value=value,
         ).run()
 
@@ -66,12 +66,12 @@ class PyQtSlider(PyQtComponentBase,
         self.__slider.setValue(data[VALUE_KEY])
         self.__setText(data[VALUE_KEY])
 
-    def set_variable(self, variable_id: str) -> None:
-        self.__variable_id = variable_id
-        AddVariableObserverOperation(
-            variable_id=variable_id,
-            observer_id=self.__component_id,
-        ).run()
-
     def on_update(self) -> None:
         pass
+
+    def _verify_variable(self, param_key: str, variable_id: str) -> None:
+        return True
+
+    @property
+    def default_params(self) -> dict:
+        return {}

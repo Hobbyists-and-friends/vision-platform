@@ -114,7 +114,7 @@ class ConvertImageToBinaryTest(unittest.TestCase):
             2
         )
 
-        self.assertEqual(self.result_image_observer.update.call_count, 6)
+        self.assertEqual(self.result_image_observer.update.call_count, 5)
 
     def test_the_threshold_variable_should_be_the_default_params_of_the_observer(self):
         CreateOperationOperation(
