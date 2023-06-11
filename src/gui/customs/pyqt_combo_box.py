@@ -17,13 +17,12 @@ from src.operations.system_call import *
 from .pyqt_component_base import PyQtComponentBase
 
 
-class PyQtComboBox(PyQtComponentBase,
-                   IVariableRelatedComponent, metaclass=PyQtMetaClass):
-    def __init__(self,
-                 component_id: str,
-                 values: list,
-                 alias: list = [],
-                 **kwargs) -> None:
+class PyQtComboBox(
+    PyQtComponentBase, IVariableRelatedComponent, metaclass=PyQtMetaClass
+):
+    def __init__(
+        self, component_id: str, values: list, alias: list = [], **kwargs
+    ) -> None:
         PyQtComponentBase.__init__(self, component_id)
         self.__combo_box = QComboBox()
         self._add_widget(self.__combo_box)
@@ -38,7 +37,6 @@ class PyQtComboBox(PyQtComponentBase,
         else:
             self.__alias = alias
 
-    def init(self) -> None:
         for value in self.__alias:
             self.__combo_box.addItem(value)
 
@@ -47,13 +45,16 @@ class PyQtComboBox(PyQtComponentBase,
         self.__combo_box.setCurrentIndex(0)
         self._set_label_text(f"{self.__kwargs['label']}")
 
+    def init(self) -> None:
+        pass
+
     def _update_value(self, index: int) -> None:
         ChangeVariableValueOperation(
             variable_id=self._params[SRC_VARIABLE],
             new_value=self.__values[index],
         ).run()
 
-    def update(self, publisher: 'IPublisher', data: dict) -> None:
+    def update(self, publisher: "IPublisher", data: dict) -> None:
         value = data[VALUE_KEY]
         for i in range(len(self.__values)):
             if self.__values[i] == value:

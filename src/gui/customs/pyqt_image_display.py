@@ -28,14 +28,14 @@ from src.operations.system_call import AddVariableObserverOperation
 from .pyqt_component_base import PyQtComponentBase
 
 
-class PyQtImageDisplay(PyQtComponentBase,
-                       IVariableRelatedComponent, metaclass=PyQtMetaClass):
+class PyQtImageDisplay(
+    PyQtComponentBase, IVariableRelatedComponent, metaclass=PyQtMetaClass
+):
     """
-    The image display component from a variable. 
+    The image display component from a variable.
     """
 
-    def __init__(self,
-                 component_id: str):
+    def __init__(self, component_id: str):
         PyQtComponentBase.__init__(self, component_id)
 
         self.__img_label = QLabel()
@@ -48,10 +48,10 @@ class PyQtImageDisplay(PyQtComponentBase,
         self.__img_label.setAlignment(Qt.AlignCenter | Qt.AlignCenter)
 
     def __repr__(self) -> str:
-        return f'<ImageDisplay name={self.__component_id}/>'
+        return f"<ImageDisplay name={self.__component_id}/>"
 
-    def update(self, publisher: 'IPublisher', data: dict) -> None:
-        img_data = System.system.variables[self._params[SRC_VARIABLE]].data[VALUE_KEY]
+    def update(self, publisher: "IPublisher", data: dict) -> None:
+        img_data = self._get_params_value(SRC_VARIABLE)
 
         if img_data is not None:
             if len(img_data.shape) == 2:
@@ -59,11 +59,11 @@ class PyQtImageDisplay(PyQtComponentBase,
             else:
                 format = QImage.Format_RGB888
 
-            image = QImage(
-                img_data, img_data.shape[1], img_data.shape[0], format)
+            image = QImage(img_data, img_data.shape[1], img_data.shape[0], format)
             pixmap = QPixmap.fromImage(image)
-            self.__img_label.setPixmap(pixmap.scaled(
-                self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            self.__img_label.setPixmap(
+                pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            )
 
     def on_update(self) -> None:
         pass

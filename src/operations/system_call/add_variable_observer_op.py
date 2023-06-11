@@ -19,7 +19,7 @@ class AddVariableObserverOperation(SystemCallBase):
     def _run_impl(self) -> None:
         if self.__variable_id not in System.system.variables:
             RaiseErrorOperation(
-                error_message=f"Variable {self.__variable_id} does not exist",
+                error_message=f"Variable {self.__variable_id} does not exist. <AddVariableObserverOperation variable={self.__variable_id} observer={self.__observer_id} update={self.__update}>",
             ).run()
             return
         System.system.variables[self.__variable_id].add_observer(

@@ -29,7 +29,7 @@ class ChangeVariableValueOperation(SystemCallBase):
     def _run_impl(self) -> None:
         if self.__variable_id not in System.system.variables.keys():
             RaiseErrorOperation(
-                error_message=f"Variable with id {self.__variable_id} does not exist"
+                error_message=f"Variable with id {self.__variable_id} does not exist. <ChangeVariableValueOperation variable={self.__variable_id} new_value={self.__new_value}>"
             ).run()
             return
         System.system.variables[self.__variable_id].change_value(

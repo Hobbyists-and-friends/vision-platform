@@ -13,12 +13,15 @@ from src.constants import *
 
 
 class MultiObserverBase(ABC):
-    def __init__(self, observer_id: str,
-                 observer_class: Callable,
-                 change_value_class: Callable,
-                 raise_error_class: Callable) -> None:
+    def __init__(
+        self,
+        observer_id: str,
+        observer_class: Callable,
+        change_value_class: Callable,
+        raise_error_class: Callable,
+    ) -> None:
         self._params = {}
-        self.__src_params = {}
+        self.src_params = {}
         self.__observer_id = observer_id
         self.__observer_class = observer_class
         self.__change_value_class = change_value_class
@@ -27,12 +30,11 @@ class MultiObserverBase(ABC):
     def set_src_variable(self, param_key: str, variable_id: str) -> None:
         if self._verify_variable(param_key, variable_id):
             self._params[param_key] = variable_id
-            self.__src_params[param_key] = variable_id
+            self.src_params[param_key] = variable_id
 
             if param_key in self.default_params:
                 self.__change_value_class(
-                    variable_id=variable_id,
-                    new_value=self.default_params[param_key]
+                    variable_id=variable_id, new_value=self.default_params[param_key]
                 ).run()
         else:
             self.__raise_error_class(
@@ -44,10 +46,9 @@ class MultiObserverBase(ABC):
             self._params[param_key] = variable_id
 
     def observer_all_src(self) -> None:
-        for variable_id in self.__src_params.values():
+        for variable_id in self.src_params.values():
             self.__observer_class(
-                variable_id=variable_id,
-                observer_id=self.__observer_id
+                variable_id=variable_id, observer_id=self.__observer_id, update=True
             ).run()
 
     @abstractmethod
@@ -56,10 +57,15 @@ class MultiObserverBase(ABC):
 
     def _get_params_value(self, param_key: str) -> object:
         if param_key in self._params:
-            return System.system.variables[self._params[param_key]].data[VALUE_KEY]
+            result = System.system.variables[self._params[param_key]].data[VALUE_KEY]
+            return result
         else:
             return self.default_params[param_key]
 
     @abstractproperty
     def default_params(self) -> dict:
         raise NotImplementedError
+
+    @property
+    def params(self) -> dict:
+        return self._params

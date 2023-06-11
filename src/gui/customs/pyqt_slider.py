@@ -26,15 +26,10 @@ from src.operations.system_call import *
 from .pyqt_component_base import PyQtComponentBase
 
 
-class PyQtSlider(PyQtComponentBase,
-                 IVariableRelatedComponent, metaclass=PyQtMetaClass):
-    def __init__(self,
-                 component_id: str,
-                 min: int = 0,
-                 max: int = 100,
-                 step: int = 1,
-                 **kwargs):
-
+class PyQtSlider(PyQtComponentBase, IVariableRelatedComponent, metaclass=PyQtMetaClass):
+    def __init__(
+        self, component_id: str, min: int = 0, max: int = 100, step: int = 1, **kwargs
+    ):
         PyQtComponentBase.__init__(self, component_id)
 
         self.__slider = QSlider(Qt.Orientation.Horizontal)
@@ -54,7 +49,8 @@ class PyQtSlider(PyQtComponentBase,
         self.__setText(self.__slider.value())
 
     def __setText(self, value: int):
-        self._set_label_text(f"{self.__kwargs['label']}: {value}")
+        label = self.__kwargs["label"] if "label" in self.__kwargs.keys() else ""
+        self._set_label_text(f"{label}: {value}")
 
     def _update_value(self, value: float) -> None:
         ChangeVariableValueOperation(
@@ -62,7 +58,7 @@ class PyQtSlider(PyQtComponentBase,
             new_value=value,
         ).run()
 
-    def update(self, publisher: 'IPublisher', data: dict) -> None:
+    def update(self, publisher: "IPublisher", data: dict) -> None:
         self.__slider.setValue(data[VALUE_KEY])
         self.__setText(data[VALUE_KEY])
 

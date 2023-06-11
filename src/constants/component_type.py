@@ -7,3 +7,4 @@ class ComponentType(Enum):
     COMBO_BOX = "combo_box"
     IMAGE_DISPLAY = "image_display"
     BUTTON_LIST = "button_list"
+    COMPONENT_LIST = "component_list"

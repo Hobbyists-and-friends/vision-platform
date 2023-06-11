@@ -21,9 +21,13 @@ class OperationType(Enum):
     ADD_VARIABLE_OBSERVER = "Add Variable Observer"
     ADD_GUI_COMPONENT = "Add GUI Component Observer"
 
+    GET_PARAMS_FROM_OBSERVER = "Get Params From Observer"
+
     # Image operations
     CONVERT_IMAGE_TO_GRAY = "Convert Image to Gray"
     CONVERT_IMAGE_TO_BINARY = "Convert Image to Binary"
 
     # Transform operations
     TRANSFORM_VARIABLE_TO_VALUE = "Transform Variable to Value"
+    GET_PARAM_FROM_MULTI_OBSERVER = "Get Param From Multi Observer"
+    GET_ALL_COMPONENTS = "Get All Componentts"

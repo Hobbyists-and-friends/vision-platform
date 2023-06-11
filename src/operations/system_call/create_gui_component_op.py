@@ -1,3 +1,5 @@
+from src.utils.Logging import Logging
+
 from src.cores import (
     System,
 )
@@ -5,12 +7,17 @@ from src.constants import ComponentType
 from src.gui.customs import *
 from .system_call_base import SystemCallBase
 from .raise_error_op import RaiseErrorOperation
+from .add_gui_component import AddGUIComponentOperation
 
 
 class CreateGUIComponentOperation(SystemCallBase):
-    def __init__(self, component_id: str,
-                 component_type: ComponentType,
-                 trigger_id: str = None, **kwargs):
+    def __init__(
+        self,
+        component_id: str,
+        component_type: ComponentType,
+        trigger_id: str = None,
+        **kwargs,
+    ):
         super().__init__(trigger_id)
         self.__component_id = component_id
         self.__component_type = component_type
@@ -41,8 +48,7 @@ class CreateGUIComponentOperation(SystemCallBase):
                 )
             elif self.__component_type == ComponentType.COMBO_BOX.value:
                 component = PyQtComboBox(
-                    component_id=self.__component_id,
-                    **self.__kwargs
+                    component_id=self.__component_id, **self.__kwargs
                 )
             elif self.__component_type == ComponentType.IMAGE_DISPLAY.value:
                 component = PyQtImageDisplay(
@@ -54,5 +60,12 @@ class CreateGUIComponentOperation(SystemCallBase):
                     component_id=self.__component_id,
                     **self.__kwargs,
                 )
+            elif self.__component_type == ComponentType.COMPONENT_LIST.value:
+                component = PyQtComponentList(
+                    component_id=self.__component_id,
+                    add_component_class=AddGUIComponentOperation,
+                    **self.__kwargs,
+                )
+                Logging.debug(msg=f"Component Id: {self.__component_id}")
 
             System.system.ui_components[self.__component_id] = component

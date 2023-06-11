@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
     QPushButton,
 )
 
+from src.utils.Logging import Logging
 from src.interfaces import (
     IPublisher,
 )
@@ -17,10 +18,8 @@ from src.operations.system_call import *
 from .pyqt_component_base import PyQtComponentBase
 
 
-class PyQtButtonList(PyQtComponentBase,
-                     IVariableRelatedComponent):
-    def __init__(self,
-                 component_id: str) -> None:
+class PyQtButtonList(PyQtComponentBase, IVariableRelatedComponent):
+    def __init__(self, component_id: str) -> None:
         super().__init__(component_id=component_id, horizontal=True)
 
         self.__variable_id = None
@@ -29,9 +28,8 @@ class PyQtButtonList(PyQtComponentBase,
     def init(self) -> None:
         self.__clear_widgets()
 
-    def update(self, publisher: 'IPublisher', data: dict) -> None:
-        values = System.system.variables[self._params[SRC_VARIABLE]
-                                         ].data[VALUE_KEY]
+    def update(self, publisher: "IPublisher", data: dict) -> None:
+        values = System.system.variables[self._params[SRC_VARIABLE]].data[VALUE_KEY]
 
         for value in values:
             button = QPushButton(value)
@@ -39,7 +37,9 @@ class PyQtButtonList(PyQtComponentBase,
             self._add_widget(button)
 
     def _button_clicked(self, value: str) -> None:
+        Logging.debug(msg=f"Click Button")
         if RESULT_VARIABLE in self._params:
+            Logging.debug(msg=f"Change Value of the button list")
             ChangeVariableValueOperation(
                 variable_id=self._params[RESULT_VARIABLE],
                 new_value=value,

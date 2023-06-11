@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import (
     QApplication,
 )
 from PyQt5.uic import loadUi
+from PyQt5.QtCore import Qt
 
 from src.constants import (
     APP_SIZE,
@@ -81,7 +82,9 @@ class PyQtWindow(QApplication, IWindow, metaclass=PyQtMetaClass):
         self.clear()
         loadUi(path, self.central_widget)
 
-    def add_component(self, component_id: str, layout: str) -> None:
+    def add_component(self, component_id: str,
+                      layout: str,
+                      dock: bool = False) -> None:
         """
         Add the given component to the given layout.
 
@@ -90,8 +93,21 @@ class PyQtWindow(QApplication, IWindow, metaclass=PyQtMetaClass):
                 The component id which will be added to the layout.
         """
         component = System.system.ui_components[component_id]
-        self.central_widget.findChild(
-            QLayout, layout).layout().addWidget(component)
+
+        if layout is not None:
+            layout = self.central_widget.findChild(
+                QLayout, layout).layout()
+            layout.addWidget(component)
+        else:
+            if dock:
+                self.app.addDockWidget(
+                    Qt.DockWidgetArea.RightDockWidgetArea, component)
+            else:
+                self.app.setCentralWidget(component)
+        # else:
+        #     layout.addWdiget(component)
+        #     self.app.addDockWidget(
+        #         Qt.DockWidgetArea.RightDockWidgetArea, component)
 
         component.init()
 

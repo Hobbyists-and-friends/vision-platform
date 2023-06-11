@@ -14,11 +14,13 @@ from .raise_error_op import RaiseErrorOperation
 
 class AddGUIComponentOperation(SystemCallBase):
     def __init__(self, component_id: str,
-                 layout: dict,
+                 layout: dict = None,
+                 dock: bool = False,
                  trigger_id: str = None):
         super().__init__(trigger_id)
         self.__component_id = component_id
         self.__layout = layout
+        self.__dock = dock
 
     def load(self, data: dict) -> None:
         pass
@@ -29,7 +31,7 @@ class AddGUIComponentOperation(SystemCallBase):
     def _run_impl(self) -> None:
         if self.__component_id not in System.system.ui_components:
             RaiseErrorOperation(
-                error_message=f"Component {self.__component_id} does not exist",
+                error_message=f"Component {self.__component_id} does not exist <AddGUIComponentOperation component={self.__component_id} layout={self.__layout} dock={self.__dock}>",
             ).run()
             return
 

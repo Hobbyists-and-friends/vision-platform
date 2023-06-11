@@ -12,14 +12,14 @@ from src.interfaces.ui import (
     IUIComponent,
     PyQtMetaClass,
 )
+from src.interfaces import IPublisher
 from src.operations.system_call import *
 from src.utils.MultiObserverBase import MultiObserverBase
 
 
-class PyQtComponentBase(MultiObserverBase,
-                        IUIComponent,
-                        QWidget,
-                        metaclass=PyQtMetaClass):
+class PyQtComponentBase(
+    MultiObserverBase, IUIComponent, QWidget, metaclass=PyQtMetaClass
+):
     def __init__(self, component_id: str, horizontal=False) -> None:
         MultiObserverBase.__init__(
             self,
@@ -44,6 +44,6 @@ class PyQtComponentBase(MultiObserverBase,
     @abstractmethod
     def init(self) -> None:
         """
-        Initialize the component (only for PyQt Component). 
+        Initialize the component (only for PyQt Component).
         """
         raise NotImplementedError

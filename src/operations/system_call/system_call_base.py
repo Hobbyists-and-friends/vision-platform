@@ -14,14 +14,19 @@ class SystemCallBase(ISystemCall):
 
     def run(self) -> None:
         if self.__trigger_id is None:
-            self._run_impl()
+            if self._is_validate():
+                self._run_impl()
         else:
             trigger = System.system.triggers[self.__trigger_id]
             if trigger.is_trigger():
-                self._run_impl()
+                if self._is_validate():
+                    self._run_impl()
 
     def set_trigger(self, trigger_id: str) -> None:
         self.__trigger_id = trigger_id
+
+    def _is_validate(self) -> bool:
+        return True
 
     @abstractmethod
     def _run_impl(self) -> None:

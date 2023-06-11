@@ -21,8 +21,7 @@ class ConvertImageToBinaryTest(unittest.TestCase):
         self.system.error.add_observer(self.error)
 
         CreateVariableOperation(
-            variable_id=TEST_IMAGE_VARIABLE_NAME,
-            variable_value=load_test_image()
+            variable_id=TEST_IMAGE_VARIABLE_NAME, variable_value=load_test_image()
         ).run()
         CreateVariableOperation(
             variable_id=TEST_GRAY_IMAGE_VARIABLE_NAME,
@@ -54,7 +53,8 @@ class ConvertImageToBinaryTest(unittest.TestCase):
 
         self.result_image_observer = Mock(spec=IObserver)
         self.system.variables[TEST_IMAGE_RESULT_NAME].add_observer(
-            self.result_image_observer)
+            self.result_image_observer
+        )
 
     def test_convert_image_to_gray(self):
         CreateOperationOperation(
@@ -70,16 +70,14 @@ class ConvertImageToBinaryTest(unittest.TestCase):
             },
             res_params_dict={
                 RESULT_VARIABLE: TEST_IMAGE_RESULT_NAME,
-            }
+            },
         ).run()
 
         self.assertEqual(
-            self.system.variables[TEST_IMAGE_RESULT_NAME].type,
-            VariableType.IMAGE
+            self.system.variables[TEST_IMAGE_RESULT_NAME].type, VariableType.IMAGE
         )
         self.assertEqual(
-            len(self.system.variables[TEST_IMAGE_RESULT_NAME].data[VALUE_KEY].shape),
-            2
+            len(self.system.variables[TEST_IMAGE_RESULT_NAME].data[VALUE_KEY].shape), 2
         )
 
     def test_convert_image_to_binary_with_new_option(self):
@@ -97,7 +95,7 @@ class ConvertImageToBinaryTest(unittest.TestCase):
             },
             res_params_dict={
                 RESULT_VARIABLE: TEST_IMAGE_RESULT_NAME,
-            }
+            },
         ).run()
 
         ChangeVariableValueOperation(
@@ -106,12 +104,10 @@ class ConvertImageToBinaryTest(unittest.TestCase):
         ).run()
 
         self.assertEqual(
-            self.system.variables[TEST_IMAGE_RESULT_NAME].type,
-            VariableType.IMAGE
+            self.system.variables[TEST_IMAGE_RESULT_NAME].type, VariableType.IMAGE
         )
         self.assertEqual(
-            len(self.system.variables[TEST_IMAGE_RESULT_NAME].data[VALUE_KEY].shape),
-            2
+            len(self.system.variables[TEST_IMAGE_RESULT_NAME].data[VALUE_KEY].shape), 2
         )
 
         self.assertEqual(self.result_image_observer.update.call_count, 5)
@@ -131,10 +127,82 @@ class ConvertImageToBinaryTest(unittest.TestCase):
             },
             res_params_dict={
                 RESULT_VARIABLE: TEST_IMAGE_RESULT_NAME,
-            }
+            },
         ).run()
 
         self.assertEqual(
             self.system.variables[TEST_THRESHOLD_VARIABLE_NAME].data[VALUE_KEY],
-            self.system.operations[TEST_CONVERT_IMAGE_TO_BINARY_OPREATEION_ID].default_params[THRESHOLD_VARIABLE]
+            self.system.operations[
+                TEST_CONVERT_IMAGE_TO_BINARY_OPREATEION_ID
+            ].default_params[THRESHOLD_VARIABLE],
         )
+
+    def test_convert_without_res_params(self):
+        CreateOperationOperation(
+            operation_id=TEST_CONVERT_IMAGE_TO_BINARY_OPREATEION_ID,
+            operation_type=OperationType.CONVERT_IMAGE_TO_BINARY.value,
+        ).run()
+
+        SetOperationRelatedVariableOperation(
+            operation_id=TEST_CONVERT_IMAGE_TO_BINARY_OPREATEION_ID,
+            src_params_dict={
+                SRC_VARIABLE: TEST_GRAY_IMAGE_VARIABLE_NAME,
+                THRESHOLD_VARIABLE: TEST_THRESHOLD_VARIABLE_NAME,
+                TYPE_VARIABLE: TEST_BINARY_IMAGE_TYPE,
+            },
+            res_params_dict={},
+        ).run()
+
+        self.assertEqual(self.error.update.call_count, NOT_CALL_OBSERVER_COUNT)
+
+    def test_convert_with_non_existed_result_variable(self):
+        CreateOperationOperation(
+            operation_id=TEST_CONVERT_IMAGE_TO_BINARY_OPREATEION_ID,
+            operation_type=OperationType.CONVERT_IMAGE_TO_BINARY.value,
+        ).run()
+
+        SetOperationRelatedVariableOperation(
+            operation_id=TEST_CONVERT_IMAGE_TO_BINARY_OPREATEION_ID,
+            src_params_dict={
+                SRC_VARIABLE: TEST_GRAY_IMAGE_VARIABLE_NAME,
+                THRESHOLD_VARIABLE: TEST_THRESHOLD_VARIABLE_NAME,
+            },
+            res_params_dict={
+                RESULT_VARIABLE: TEST_NON_EXISTED_VARIABLE_NAME,
+            },
+            auto_mode=True,
+        ).run()
+
+        self.assertEqual(
+            self.system.variables[TEST_NON_EXISTED_VARIABLE_NAME].type,
+            VariableType.IMAGE,
+        )
+        self.assertEqual(
+            len(
+                self.system.variables[TEST_NON_EXISTED_VARIABLE_NAME]
+                .data[VALUE_KEY]
+                .shape
+            ),
+            2,
+        )
+
+    def test_convert_image_to_binary_with_non_existed_src_variable(self):
+        CreateOperationOperation(
+            operation_id=TEST_CONVERT_IMAGE_TO_BINARY_OPREATEION_ID,
+            operation_type=OperationType.CONVERT_IMAGE_TO_BINARY.value,
+        ).run()
+
+        SetOperationRelatedVariableOperation(
+            operation_id=TEST_CONVERT_IMAGE_TO_BINARY_OPREATEION_ID,
+            src_params_dict={
+                SRC_VARIABLE: TEST_NON_EXISTED_VARIABLE_NAME,
+                THRESHOLD_VARIABLE: TEST_NON_EXISTED_PARAM,
+            },
+            res_params_dict={
+                RESULT_VARIABLE: TEST_BINARY_IMAGE_VARIABLE_NAME,
+            },
+            auto_mode=True,
+        ).run()
+
+        self.assertTrue(TEST_NON_EXISTED_VARIABLE_NAME in self.system.variables.keys())
+        self.assertTrue(TEST_NON_EXISTED_PARAM in self.system.variables.keys())

@@ -22,10 +22,11 @@ class ConvertImageToBinary(ObserverOpBase):
         ret, binary_image = cv2.threshold(
             src_image, threshold, 255, type)
 
-        ChangeVariableValueOperation(
-            variable_id=self._params[RESULT_VARIABLE],
-            new_value=binary_image
-        ).run()
+        if RESULT_VARIABLE in self._params:
+            ChangeVariableValueOperation(
+                variable_id=self._params[RESULT_VARIABLE],
+                new_value=binary_image
+            ).run()
 
     def _verify_variable(self, param_key: str, variable_id: str) -> bool:
         return True

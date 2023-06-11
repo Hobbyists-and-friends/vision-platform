@@ -11,3 +11,4 @@ from .SetComponentRelatedVariableTest import SetComponentRelatedVariableTest
 from .ResetSystemTest import ResetSystemTest
 from .LoadImageTest import LoadImageTest
 from .LoadLayoutTest import LoadLayoutTest
+from .GetAllParamsComponentIdTest import GetAllParamsComponentIdTest

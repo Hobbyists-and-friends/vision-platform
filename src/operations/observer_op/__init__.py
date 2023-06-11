@@ -3,3 +3,5 @@ from .log_variable import LogVariable
 from .convert_image_to_gray import ConvertImageToGray
 from .convert_image_to_binary import ConvertImageToBinary
 from .transform_variable_to_value import TransformVariableToValue
+from .get_param_from_multi_observer import GetParamFromMultiObserver
+from .get_all_components_from_op_op import GetAllComponentsFromOperationOperation

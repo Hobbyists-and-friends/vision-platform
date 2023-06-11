@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import (
     Mock,
-    patch,
+    MagicMock,
 )
 from src.interfaces import (
     ISystem,
@@ -9,42 +9,52 @@ from src.interfaces import (
 from src.cores import (
     System,
 )
-from src.operations.system_call import (
-    CreateVariableOperation,
-    ChangeVariableValueOperation,
-)
+from src.utils.Logging import Logging
+from src.operations.system_call import *
 from src.operations.observer_op import (
     LogVariable,
 )
+from src.constants import *
 
-from tests.constants import (
-    TEST_OPERATION_NAME,
-    TEST_VARIABLE_NAME,
-    TEST_VARIABLE_VALUE,
-    TEST_VARIABLE_SECOND_VALUE,
-)
+from tests.constants import *
 
 
 class LogVariableTest(unittest.TestCase):
     def setUp(self):
         self.system = System()
+        self.info_logging = MagicMock()
+
+        Logging.info = self.info_logging
 
         CreateVariableOperation(
             variable_id=TEST_VARIABLE_NAME,
             variable_value=TEST_VARIABLE_VALUE,
         ).run()
 
-        self.system.operations[TEST_OPERATION_NAME] = LogVariable()
+        CreateOperationOperation(
+            operation_id=TEST_LOG_VARIABLE_ID,
+            operation_type=OperationType.LOG_VARIABLE.value,
+        ).run()
 
-        self.system.variables[TEST_VARIABLE_NAME].add_observer(
-            self.system.operations[TEST_OPERATION_NAME],
-        )
+        SetOperationRelatedVariableOperation(
+            operation_id=TEST_LOG_VARIABLE_ID,
+            src_params_dict={
+                SRC_VARIABLE: TEST_VARIABLE_NAME,
+            },
+            res_params_dict={},
+        ).run()
+
+        # self.system.variables[TEST_VARIABLE_NAME].add_observer(
+        #     self.system.operations[TEST_OPERATION_NAME],
+        # )
 
     def test_console_log_variable_value(self):
-        with patch('builtins.print') as mocked_print:
-            ChangeVariableValueOperation(
-                variable_id=TEST_VARIABLE_NAME,
-                new_value=TEST_VARIABLE_SECOND_VALUE,
-            ).run()
+        ChangeVariableValueOperation(
+            variable_id=TEST_VARIABLE_NAME,
+            new_value=TEST_VARIABLE_SECOND_VALUE,
+        ).run()
 
-            mocked_print.assert_called_with(TEST_VARIABLE_SECOND_VALUE)
+        self.assertEqual(
+            self.info_logging.call_count,
+            2,
+        )
